@@ -1,0 +1,7 @@
+*.stackdump
+__pycache__/
+.idea/
+.vscode/
+.gemini/
+*.tmp
+temp/
