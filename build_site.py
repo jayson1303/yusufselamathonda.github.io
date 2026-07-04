@@ -509,14 +509,16 @@ html_content = """<!DOCTYPE html>
                             <!-- Thumbnail items will be dynamically generated -->
                         </div>
                     </div>
+                    
+                    <!-- Motor Name and Category (Moved here) -->
+                    <div class="modal-card__brand-header" style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display: flex; flex-direction: column; align-items: flex-start;">
+                        <span class="modal-card__category" id="js-modal-category" style="margin-bottom: 4px;">Beat Series</span>
+                        <h2 class="modal-card__title" id="js-modal-title" style="margin-bottom: 0; font-size: 24px;">All New Beat CBS</h2>
+                    </div>
                 </div>
                 
                 <!-- Details/Configurator Column -->
                 <div class="modal-card__details">
-                    <span class="modal-card__category" id="js-modal-category">Beat Series</span>
-                    <h2 class="modal-card__title" id="js-modal-title">All New Beat CBS</h2>
-                    
-                    <div class="modal-card__divider"></div>
                     
                     <p class="modal-card__desc" id="js-modal-desc">
                         Sepeda motor matic handal dengan konsumsi bahan bakar yang sangat hemat, dibekali teknologi rangka eSAF terbaru untuk kenyamanan manuver yang maksimal.
@@ -2127,14 +2129,14 @@ button, select {
 
 .modal-card__main-img-container {
     width: 100%;
-    height: 280px;
+    height: 380px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .modal-card__main-img {
-    max-height: 240px;
+    max-height: 340px;
     object-fit: contain;
     filter: drop-shadow(0 15px 25px rgba(0,0,0,0.05));
     transition: transform 0.3s ease;
@@ -2584,8 +2586,11 @@ button, select {
     .modal-card__details {
         padding: 16px;
     }
+    .modal-card__main-img-container {
+        height: 240px;
+    }
     .modal-card__main-img {
-        max-height: 160px;
+        max-height: 220px;
     }
     .modal-card__title {
         font-size: 18px;
