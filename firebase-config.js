@@ -41,12 +41,12 @@ import {
 // Ganti nilai di bawah ini dengan kredensial dari Firebase Console Anda,
 // atau gunakan menu 'Konfigurasi Firebase' di Admin Panel.
 const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDummyKeyReplaceWithActualFirebaseApiKey123",
+  apiKey: "AIzaSyDPQlT-nrl_CyRaKSioYR9WUc6BltX_eo0",
   authDomain: "yusuf-selamat-motor.firebaseapp.com",
   projectId: "yusuf-selamat-motor",
-  storageBucket: "yusuf-selamat-motor.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef1234567890"
+  storageBucket: "yusuf-selamat-motor.firebasestorage.app",
+  messagingSenderId: "686245025336",
+  appId: "1:686245025336:web:57f4d5b1ed45e7ebd038cd"
 };
 
 // Ambil konfigurasi dari localStorage jika pernah disimpan oleh admin
