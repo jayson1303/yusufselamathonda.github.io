@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal - Yusuf Selamat Motor Honda</title>
+  <meta name="description" content="Dashboard Pengelolaan Katalog & Konten Yusuf Selamat Motor Honda">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. LOGIN SCREEN (DISPLAYED WHEN NOT AUTHENTICATED)
+       ========================================================================== -->
+  <div id="view-login" class="login-screen">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <!-- Honda Wing Clean SVG -->
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.5,3.5 C5.5,3.5 12,5.5 18,10.5 C20.5,12.5 22,14.5 22,16.5 C22,18 20.5,19 18.5,19 C15,19 10.5,15.5 6,11 C4.5,9.5 3,7.5 2.5,3.5 M4,5.5 C4.5,8 6,10 7.5,11.5 C11.5,15.5 15.5,18 18.5,18 C19.5,18 20.5,17.5 20.5,16.5 C20.5,15 19.5,13.5 17,11.5 C12,7 6.5,5 4,5.5 Z" />
+            <path d="M3.5,7 C6,7 11.5,8.5 16,12.5 C18,14.2 19,15.8 19,17 C19,18 18,18.5 17,18.5 C14.2,18.5 10.5,15.8 6.8,12 C5.5,10.8 4.2,9.2 3.5,7 Z" opacity="0.8" />
+            <path d="M4.5,10.5 C6.5,10.5 10.5,11.8 13.8,14.8 C15.2,16.1 16,17.2 16,18 C16,18.6 15.2,19 14.5,19 C12.2,19 9.2,17 6.2,13.8 C5.2,12.8 4.7,11.8 4.5,10.5 Z" opacity="0.6" />
+          </svg>
+        </div>
+        <h1 class="login-title">Portal Administrator</h1>
+        <p class="login-subtitle">Yusuf Selamat Motor Honda</p>
+      </div>
+
+      <div id="login-alert-container"></div>
+
+      <form id="form-login" class="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Admin</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <input type="email" id="login-email" class="form-input" placeholder="admin@yusufselamatmotorhonda.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Kata Sandi</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="toggle-password" id="btn-toggle-password" aria-label="Lihat kata sandi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="login-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="login-remember" checked>
+            <span>Ingat Sesi Saya</span>
+          </label>
+          <a href="#" class="forgot-link" id="btn-open-forgot">Lupa Sandi?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="btn-submit-login">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          <span id="login-btn-text">Masuk ke Dashboard</span>
+        </button>
+
+        <div style="text-align: center; margin-top: 6px;">
+          <a href="#" id="btn-login-open-config" style="font-size: 12px; color: var(--text-muted); text-decoration: underline;">
+            Konfigurasi Kredensial Firebase
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       2. ADMIN APP (DISPLAYED WHEN AUTHENTICATED)
+       ========================================================================== -->
+  <div id="view-admin" class="admin-app" style="display: none;">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.5,3.5 C5.5,3.5 12,5.5 18,10.5 C20.5,12.5 22,14.5 22,16.5 C22,18 20.5,19 18.5,19 C15,19 10.5,15.5 6,11 C4.5,9.5 3,7.5 2.5,3.5 M4,5.5 C4.5,8 6,10 7.5,11.5 C11.5,15.5 15.5,18 18.5,18 C19.5,18 20.5,17.5 20.5,16.5 C20.5,15 19.5,13.5 17,11.5 C12,7 6.5,5 4,5.5 Z" />
+          </svg>
+        </div>
+        <div>
+          <div class="sidebar-brand-text">YUSUF SELAMAT</div>
+          <div class="sidebar-brand-sub">MOTOR HONDA &bull; ADMIN</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Menu Utama</div>
+        <div class="nav-item active" data-tab="tab-dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Ringkasan</span>
+        </div>
+
+        <div class="nav-item" data-tab="tab-products">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span>Katalog Produk</span>
+          <span class="nav-badge" id="badge-products-count">0</span>
+        </div>
+
+        <div class="nav-item" data-tab="tab-testimonials">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Testimoni Konsumen</span>
+          <span class="nav-badge" id="badge-testi-count">0</span>
+        </div>
+
+        <div class="nav-section-title">Sistem & Konfigurasi</div>
+        <div class="nav-item" data-tab="tab-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Pengaturan Umum</span>
+        </div>
+
+        <div class="nav-item" data-tab="tab-migration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 16 12 12 8 16"></polyline>
+            <line x1="12" y1="12" x2="12" y2="21"></line>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+            <polyline points="16 16 12 12 8 16"></polyline>
+          </svg>
+          <span>Migrasi & Cadangan</span>
+        </div>
+
+        <div class="nav-item" data-tab="tab-config">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>Konfigurasi Firebase</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span>Vercel &bull; Ready</span>
+        <button id="btn-sidebar-logout" class="btn btn-sm btn-outline" style="color: #cbd5e1; border-color: rgba(255,255,255,0.2);" title="Keluar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" id="btn-toggle-sidebar" aria-label="Toggle Sidebar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="topbar-title" id="topbar-current-title">Ringkasan Dashboard</div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="status-pill" id="topbar-status-pill">
+            <span class="status-dot"></span>
+            <span id="topbar-status-text">Sinkron Realtime</span>
+          </div>
+
+          <a href="index.html" target="_blank" class="btn btn-sm btn-outline" title="Buka Landing Page di Tab Baru">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Lihat Website</span>
+          </a>
+
+          <div class="user-profile">
+            <div class="user-avatar" id="topbar-user-avatar">A</div>
+            <div class="user-info">
+              <span class="user-email" id="topbar-user-email">admin@yusufselamat.com</span>
+              <span class="user-role">Administrator</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="content-body">
+
+        <!-- ==================================================================
+             TAB 1: RINGKASAN (DASHBOARD)
+             ================================================================== -->
+        <section id="tab-dashboard" class="tab-pane active">
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon-wrapper red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-total-products">0</span>
+                <span class="stat-label">Model Motor Aktif</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrapper blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-total-categories">0</span>
+                <span class="stat-label">Kategori Seri Honda</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrapper green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-total-testimonials">0</span>
+                <span class="stat-label">Testimoni Konsumen</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrapper amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-firebase-status" style="font-size: 18px;">Terkoneksi</span>
+                <span class="stat-label">Status Cloud Firestore</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions & Tips -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                  </svg>
+                  Aksi Cepat
+                </h3>
+              </div>
+              <div class="card-body" style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" onclick="window.adminApp.openProductModal('add')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Tambah Produk Motor Baru
+                </button>
+                <button class="btn btn-outline" onclick="window.adminApp.openBulkPriceModal()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                  Update Harga Massal (Promo/Penyesuaian OTR)
+                </button>
+                <button class="btn btn-outline" onclick="window.adminApp.switchTab('tab-settings')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                  Edit Kontak WhatsApp & Alamat
+                </button>
+                <button class="btn btn-outline" onclick="window.adminApp.switchTab('tab-migration')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  Migrasi 46 Data Bawaan ke Firestore
+                </button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                  Informasi Sistem Realtime
+                </h3>
+              </div>
+              <div class="card-body" style="font-size: 13.5px; color: var(--text-main); line-height: 1.6;">
+                <p style="margin-bottom: 12px;">
+                  Sistem katalog Yusuf Selamat Motor Honda telah terhubung secara <strong>Real-time dengan Firebase Firestore</strong>.
+                </p>
+                <ul style="padding-left: 18px; display: flex; flex-direction: column; gap: 8px; color: var(--text-muted);">
+                  <li>Setiap perubahan harga atau produk baru langsung tampil di landing page tanpa reload.</li>
+                  <li>Perubahan nomor WhatsApp otomatis memperbarui tombol pemesanan motor.</li>
+                  <li>Katalog dapat di-update kapan saja langsung dari ponsel atau laptop.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 2: KATALOG PRODUK (FULL CRUD)
+             ================================================================== -->
+        <section id="tab-products" class="tab-pane">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                  Daftar Katalog Sepeda Motor
+                </h3>
+                <span class="card-subtitle">Kelola harga OTR, foto unit, varian warna, dan simulasi cicilan</span>
+              </div>
+              <div class="controls-right">
+                <button class="btn btn-outline" onclick="window.adminApp.openBulkPriceModal()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                  Update Harga Massal
+                </button>
+                <button class="btn btn-primary" onclick="window.adminApp.openProductModal('add')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Tambah Motor Baru
+                </button>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <!-- Controls Filter & Search -->
+              <div class="controls-bar">
+                <div class="controls-left">
+                  <div class="search-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="admin-product-search" placeholder="Cari nama motor...">
+                  </div>
+
+                  <select id="admin-product-filter-category" class="form-select no-icon" style="width: 180px; padding: 9px 12px; font-size: 13px;">
+                    <option value="all">Semua Kategori</option>
+                    <option value="Beat Series">Beat Series</option>
+                    <option value="Genio Series">Genio Series</option>
+                    <option value="Scoopy Series">Scoopy Series</option>
+                    <option value="Vario Series">Vario Series</option>
+                    <option value="Stylo Series">Stylo Series</option>
+                    <option value="PCX Series">PCX Series</option>
+                    <option value="ADV Series">ADV Series</option>
+                    <option value="Sport Series">Sport Series</option>
+                    <option value="Bebek Series">Bebek Series</option>
+                    <option value="Premium Series">Premium Series</option>
+                  </select>
+
+                  <select id="admin-product-sort" class="form-select no-icon" style="width: 160px; padding: 9px 12px; font-size: 13px;">
+                    <option value="name-asc">Nama (A - Z)</option>
+                    <option value="price-asc">Harga Terendah</option>
+                    <option value="price-desc">Harga Tertinggi</option>
+                  </select>
+                </div>
+
+                <div class="controls-right">
+                  <span style="font-size: 13px; color: var(--text-muted);" id="admin-product-counter">
+                    Menampilkan 0 produk
+                  </span>
+                </div>
+              </div>
+
+              <!-- Products Table -->
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 60px;">Foto</th>
+                      <th>Nama Motor</th>
+                      <th>Kategori</th>
+                      <th>Harga OTR Cash</th>
+                      <th>Cicilan / Bulan</th>
+                      <th>Varian Warna</th>
+                      <th style="text-align: right; width: 130px;">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-products-table-body">
+                    <tr>
+                      <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                        Memuat data produk...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 3: TESTIMONI KONSUMEN (CRUD)
+             ================================================================== -->
+        <section id="tab-testimonials" class="tab-pane">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  Ulasan & Dokumentasi Serah Terima
+                </h3>
+                <span class="card-subtitle">Kelola ulasan pembeli dan dokumentasi foto pengiriman motor</span>
+              </div>
+              <button class="btn btn-primary" onclick="window.adminApp.openTestimonialModal('add')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Tambah Testimoni Baru
+              </button>
+            </div>
+
+            <div class="card-body">
+              <div class="testimonials-admin-grid" id="admin-testimonials-grid">
+                <!-- Testimonials rendered via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 4: PENGATURAN UMUM
+             ================================================================== -->
+        <section id="tab-settings" class="tab-pane">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                  Pengaturan Kontak & Informasi Dealer
+                </h3>
+                <span class="card-subtitle">Ubah nomor WhatsApp, jam buka, alamat, dan tautan sosial media langsung tanpa koding</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <form id="form-general-settings" style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- Kontak -->
+                <div>
+                  <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--dark); border-bottom: 1px solid var(--border); padding-bottom: 6px;">
+                    Kontak Marketing & Hotline
+                  </h4>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                    <div class="form-group">
+                      <label class="form-label" for="setting-whatsapp">Nomor WhatsApp Marketing (Awali 62)</label>
+                      <input type="text" id="setting-whatsapp" class="form-input no-icon" placeholder="6283163895963" required>
+                      <span style="font-size: 11.5px; color: var(--text-muted);">Gunakan format internasional tanpa tanda + atau spasi, contoh: 6283163895963</span>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="setting-phone">Teks Nomor Telepon / WA (Tampilan Web)</label>
+                      <input type="text" id="setting-phone" class="form-input no-icon" placeholder="+62 831-6389-5963" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="setting-email">Email Resmi Dealer</label>
+                      <input type="email" id="setting-email" class="form-input no-icon" placeholder="info@yusufselamatmotorhonda.com" required>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Alamat & Jam -->
+                <div>
+                  <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--dark); border-bottom: 1px solid var(--border); padding-bottom: 6px;">
+                    Lokasi Showroom & Jam Operasional
+                  </h4>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                      <label class="form-label" for="setting-address">Alamat Lengkap Showroom Dealer</label>
+                      <textarea id="setting-address" class="form-textarea no-icon" rows="2" placeholder="Jl. Siliwangi No. 109, Pelabuhanratu, Kec. Pelabuhanratu, Kabupaten Sukabumi, Jawa Barat 43311"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="setting-hours">Jam Operasional</label>
+                      <input type="text" id="setting-hours" class="form-input no-icon" placeholder="Senin - Sabtu: 08.00 - 17.00 | Minggu: Tutup">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="setting-maps">URL Embed Google Maps (Iframe Src)</label>
+                      <input type="text" id="setting-maps" class="form-input no-icon" placeholder="https://www.google.com/maps/embed?...">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sosial Media -->
+                <div>
+                  <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--dark); border-bottom: 1px solid var(--border); padding-bottom: 6px;">
+                    Tautan Akun Sosial Media
+                  </h4>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                    <div class="form-group">
+                      <label class="form-label" for="setting-instagram">Tautan Instagram</label>
+                      <input type="url" id="setting-instagram" class="form-input no-icon" placeholder="https://www.instagram.com/yusuf_selamatmotor...">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="setting-tiktok">Tautan TikTok</label>
+                      <input type="url" id="setting-tiktok" class="form-input no-icon" placeholder="https://www.tiktok.com/@yusufselamatmotor_plara...">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="setting-facebook">Tautan Facebook</label>
+                      <input type="url" id="setting-facebook" class="form-input no-icon" placeholder="https://www.facebook.com/share/...">
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end;">
+                  <button type="submit" class="btn btn-primary" id="btn-save-settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    Simpan Semua Pengaturan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 5: MIGRASI & CADANGAN DATA
+             ================================================================== -->
+        <section id="tab-migration" class="tab-pane">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path></svg>
+                  Migrasi & Pemulihan Database
+                </h3>
+                <span class="card-subtitle">Sinkronisasi dataset awal ke Firestore atau ekspor cadangan</span>
+              </div>
+            </div>
+
+            <div class="card-body" style="display: flex; flex-direction: column; gap: 20px;">
+              <!-- 1-Click Migration Card -->
+              <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">
+                  1-Click Migrasi 46 Produk & 9 Testimoni ke Firestore
+                </h4>
+                <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+                  Fitur ini akan mengunggah seluruh 46 model sepeda motor Honda (lengkap dengan varian warna, foto, harga OTR, dan skema simulasi cicilan) serta 9 testimoni konsumen ke koleksi <code>products</code> dan <code>testimonials</code> di Cloud Firestore Anda secara otomatis.
+                </p>
+
+                <div id="migration-progress-box" style="display: none; margin-bottom: 16px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
+                    <span id="migration-progress-status">Mengunggah data...</span>
+                    <span id="migration-progress-percent">0%</span>
+                  </div>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="migration-progress-bar"></div>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" id="btn-start-migration">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path></svg>
+                  Mulai Migrasi ke Firestore Sekarang
+                </button>
+              </div>
+
+              <!-- Backup / Export Card -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                <div style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px;">
+                  <h5 style="font-weight: 700; font-size: 14px; margin-bottom: 6px;">Ekspor Cadangan (Backup JSON)</h5>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">Unduh seluruh data produk, testimoni, dan pengaturan ke file JSON lokal.</p>
+                  <button class="btn btn-sm btn-outline" id="btn-export-backup">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Unduh File Backup JSON
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 6: KONFIGURASI FIREBASE
+             ================================================================== -->
+        <section id="tab-config" class="tab-pane">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  Kredensial Firebase SDK
+                </h3>
+                <span class="card-subtitle">Atur API Key dan konfigurasi project Firebase</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <form id="form-firebase-config" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-apiKey">API Key (apiKey)</label>
+                  <input type="text" id="cfg-apiKey" class="form-input no-icon" placeholder="AIzaSy..." required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-projectId">Project ID (projectId)</label>
+                    <input type="text" id="cfg-projectId" class="form-input no-icon" value="yusuf-selamat-motor" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-authDomain">Auth Domain (authDomain)</label>
+                    <input type="text" id="cfg-authDomain" class="form-input no-icon" value="yusuf-selamat-motor.firebaseapp.com" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-storageBucket">Storage Bucket (storageBucket)</label>
+                    <input type="text" id="cfg-storageBucket" class="form-input no-icon" value="yusuf-selamat-motor.appspot.com">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-appId">App ID (appId)</label>
+                    <input type="text" id="cfg-appId" class="form-input no-icon" placeholder="1:123456789012:web:abcdef">
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 10px;">
+                  <button type="button" class="btn btn-outline" id="btn-reset-default-config">
+                    Gunakan Konfigurasi Bawaan
+                  </button>
+                  <button type="submit" class="btn btn-primary" id="btn-save-firebase-config">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    Simpan & Muat Ulang
+                  </button>
+                </div>
+              </form>
+
+              <!-- Firestore Security Rules Helper -->
+              <div style="margin-top: 28px; padding: 20px; background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md);">
+                <h5 style="font-weight: 700; font-size: 13.5px; margin-bottom: 8px;">Firestore Security Rules yang Direkomendasikan:</h5>
+                <pre style="background: #0f172a; color: #f8fafc; padding: 14px; border-radius: var(--radius-sm); font-size: 12px; overflow-x: auto; line-height: 1.4;"><code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /products/{document=**} { allow read: if true; allow write: if request.auth != null; }
+    match /testimonials/{document=**} { allow read: if true; allow write: if request.auth != null; }
+    match /settings/{document=**} { allow read: if true; allow write: if request.auth != null; }
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       3. MODALS & DIALOGS
+       ========================================================================== -->
+
+  <!-- MODAL: TAMBAH / EDIT PRODUK -->
+  <div class="modal-backdrop" id="modal-product">
+    <div class="modal-box modal-lg">
+      <div class="modal-head">
+        <h3 class="modal-title-text" id="modal-product-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+          <span>Tambah Produk Motor Baru</span>
+        </h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModal('modal-product')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-content-scroll">
+        <div class="modal-nav-tabs">
+          <button class="modal-tab-btn active" data-modaltab="modal-tab-prod-basic">1. Data Utama</button>
+          <button class="modal-tab-btn" data-modaltab="modal-tab-prod-variants">2. Varian Warna & Foto</button>
+          <button class="modal-tab-btn" data-modaltab="modal-tab-prod-credit">3. Skema Cicilan & DP</button>
+        </div>
+
+        <form id="form-product">
+          <input type="hidden" id="prod-form-id">
+
+          <!-- TAB 1: DATA UTAMA -->
+          <div id="modal-tab-prod-basic" class="modal-tab-content">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label" for="prod-name">Nama Model Motor</label>
+                <input type="text" id="prod-name" class="form-input no-icon" placeholder="Contoh: All New Stylo 160 ABS" required>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="prod-category">Kategori Seri</label>
+                  <select id="prod-category" class="form-select no-icon">
+                    <option value="Beat Series">Beat Series</option>
+                    <option value="Genio Series">Genio Series</option>
+                    <option value="Scoopy Series">Scoopy Series</option>
+                    <option value="Vario Series">Vario Series</option>
+                    <option value="Stylo Series">Stylo Series</option>
+                    <option value="PCX Series">PCX Series</option>
+                    <option value="ADV Series">ADV Series</option>
+                    <option value="Sport Series">Sport Series</option>
+                    <option value="Bebek Series">Bebek Series</option>
+                    <option value="Premium Series">Premium Series</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="prod-price-cash">Harga OTR Cash (Tunai Rp)</label>
+                  <input type="number" id="prod-price-cash" class="form-input no-icon" placeholder="Contoh: 21500000" required min="1000000">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="prod-desc">Deskripsi Singkat (Opsional)</label>
+                <textarea id="prod-desc" class="form-textarea no-icon" placeholder="Deskripsi keunggulan motor..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: VARIAN WARNA & FOTO -->
+          <div id="modal-tab-prod-variants" class="modal-tab-content" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <span style="font-size: 13px; color: var(--text-muted);">
+                Tambahkan satu atau beberapa varian warna beserta foto unitnya:
+              </span>
+              <button type="button" class="btn btn-sm btn-outline-primary" id="btn-add-variant-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Tambah Warna
+              </button>
+            </div>
+
+            <div id="variant-rows-container">
+              <!-- Dynamic variant rows generated via JS -->
+            </div>
+          </div>
+
+          <!-- TAB 3: SKEMA CICILAN -->
+          <div id="modal-tab-prod-credit" class="modal-tab-content" style="display: none;">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="prod-price-credit">Nominal Cicilan Mulai Dari (Rp/bln)</label>
+                  <input type="number" id="prod-price-credit" class="form-input no-icon" placeholder="Contoh: 885000">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="prod-tenor">Tenor Standar (Bulan)</label>
+                  <select id="prod-tenor" class="form-select no-icon">
+                    <option value="35">35 Bulan</option>
+                    <option value="29">29 Bulan</option>
+                    <option value="23">23 Bulan</option>
+                    <option value="17">17 Bulan</option>
+                    <option value="11">11 Bulan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="prod-dp">Uang Muka Minimal (DP Rp)</label>
+                <input type="number" id="prod-dp" class="form-input no-icon" placeholder="Contoh: 2000000" value="2000000">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="window.adminApp.closeModal('modal-product')">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-save-product">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          Simpan Produk
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: UPDATE HARGA MASSAL -->
+  <div class="modal-backdrop" id="modal-bulk-price">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="modal-title-text">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+          <span>Update Harga Massal</span>
+        </h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModal('modal-bulk-price')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-content-scroll">
+        <form id="form-bulk-price" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="bulk-category">Kategori Sasaran</label>
+            <select id="bulk-category" class="form-select no-icon">
+              <option value="all">Semua Kategori Motor</option>
+              <option value="Beat Series">Beat Series</option>
+              <option value="Genio Series">Genio Series</option>
+              <option value="Scoopy Series">Scoopy Series</option>
+              <option value="Vario Series">Vario Series</option>
+              <option value="Stylo Series">Stylo Series</option>
+              <option value="PCX Series">PCX Series</option>
+              <option value="ADV Series">ADV Series</option>
+              <option value="Sport Series">Sport Series</option>
+              <option value="Bebek Series">Bebek Series</option>
+              <option value="Premium Series">Premium Series</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="bulk-type">Jenis Penyesuaian</label>
+              <select id="bulk-type" class="form-select no-icon">
+                <option value="nominal-plus">Naikkan (+) Nominal Rp</option>
+                <option value="nominal-minus">Turunkan (-) Nominal Rp (Diskon)</option>
+                <option value="percent-plus">Naikkan (+) Persentase %</option>
+                <option value="percent-minus">Turunkan (-) Persentase %</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="bulk-value">Nilai Penyesuaian</label>
+              <input type="number" id="bulk-value" class="form-input no-icon" placeholder="Contoh: 250000 atau 2" required min="1">
+            </div>
+          </div>
+
+          <div class="alert-banner alert-warning">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <div>
+              <strong>Perhatian:</strong> Perubahan ini akan langsung diperbarui ke Firestore untuk semua motor yang sesuai filter kategori dan tampil di landing page secara langsung.
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="window.adminApp.closeModal('modal-bulk-price')">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-apply-bulk-price">
+          Terapkan Update Harga
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TAMBAH / EDIT TESTIMONI -->
+  <div class="modal-backdrop" id="modal-testi">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="modal-title-text" id="modal-testi-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>Tambah Testimoni Konsumen</span>
+        </h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModal('modal-testi')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-content-scroll">
+        <form id="form-testi" style="display: flex; flex-direction: column; gap: 16px;">
+          <input type="hidden" id="testi-form-id">
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="testi-name">Nama Konsumen</label>
+              <input type="text" id="testi-name" class="form-input no-icon" placeholder="Contoh: Ibu Rina" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="testi-location">Lokasi / Domisili</label>
+              <input type="text" id="testi-location" class="form-input no-icon" placeholder="Contoh: Pelabuhan Ratu">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="testi-rating">Rating Bintang (1 - 5)</label>
+            <select id="testi-rating" class="form-select no-icon">
+              <option value="5">⭐⭐⭐⭐⭐ Bintang 5 (Sangat Puas)</option>
+              <option value="4">⭐⭐⭐⭐ Bintang 4 (Puas)</option>
+              <option value="0">Dokumentasi Foto Serah Terima Saja (Tanpa Rating)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="testi-text">Isi Ulasan Konsumen</label>
+            <textarea id="testi-text" class="form-textarea no-icon" rows="3" placeholder="Tuliskan testimoni atau review pembeli..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Foto Dokumentasi Serah Terima</label>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="file" id="testi-file-input" accept="image/*" style="font-size: 13px;">
+              <input type="hidden" id="testi-img-data">
+            </div>
+            <div id="testi-preview-box" style="margin-top: 10px; display: none;">
+              <img id="testi-preview-img" src="" alt="Preview" style="max-height: 120px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="window.adminApp.closeModal('modal-testi')">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-save-testi">
+          Simpan Testimoni
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KONFIRMASI HAPUS -->
+  <div class="modal-backdrop" id="modal-confirm-delete">
+    <div class="modal-box modal-sm">
+      <div class="modal-head">
+        <h3 class="modal-title-text" style="color: var(--danger);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <span>Konfirmasi Hapus</span>
+        </h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModal('modal-confirm-delete')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-content-scroll">
+        <p style="font-size: 14px; color: var(--text-main); line-height: 1.5;" id="confirm-delete-message">
+          Yakin ingin menghapus item ini dari katalog? Tindakan ini tidak dapat dibatalkan.
+        </p>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="window.adminApp.closeModal('modal-confirm-delete')">Batal</button>
+        <button type="button" class="btn btn-danger" id="btn-execute-delete">
+          Hapus Sekarang
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LUPA PASSWORD -->
+  <div class="modal-backdrop" id="modal-forgot-password">
+    <div class="modal-box modal-sm">
+      <div class="modal-head">
+        <h3 class="modal-title-text">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Reset Kata Sandi</span>
+        </h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModal('modal-forgot-password')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-content-scroll">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          Masukkan alamat email administrator Anda untuk menerima tautan reset kata sandi melalui Firebase Authentication.
+        </p>
+        <div class="form-group">
+          <label class="form-label" for="forgot-email">Email Administrator</label>
+          <input type="email" id="forgot-email" class="form-input no-icon" placeholder="admin@yusufselamatmotorhonda.com" required>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="window.adminApp.closeModal('modal-forgot-password')">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-send-password-reset">Kirim Email Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ADMIN LOGIC SCRIPT (ES MODULE) -->
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

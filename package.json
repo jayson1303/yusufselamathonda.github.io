@@ -1,0 +1,24 @@
+{
+  "name": "project-yusuf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "admin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayson1303/yusufselamathonda.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jayson1303/yusufselamathonda.github.io/issues"
+  },
+  "homepage": "https://github.com/jayson1303/yusufselamathonda.github.io#readme",
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "sharp": "^0.32.6"
+  }
+}

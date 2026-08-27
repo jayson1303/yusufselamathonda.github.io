@@ -5,3 +5,6 @@ __pycache__/
 .gemini/
 *.tmp
 temp/
+serviceAccountKey.json
+node_modules/
+package-lock.json
