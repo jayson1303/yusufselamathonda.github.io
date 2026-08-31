@@ -21,9 +21,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Beat Series",
     "otr_price": 19675000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.43.05.jpeg",
-      "WhatsApp Image 2026-07-02 at 10.43.06 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.43.06.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.43.05.png",
+      "WhatsApp Image 2026-07-02 at 10.43.06 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.43.06.png"
     ],
     "installments": [
       {
@@ -246,23 +246,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 445000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.43.05.jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-02 at 10.43.06 (1).jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-02 at 10.43.06.jpeg"
-      }
     ]
   },
   {
@@ -272,8 +255,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Beat Series",
     "otr_price": 20725000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.45.14 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.45.14.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.45.14 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.45.14.png"
     ],
     "installments": [
       {
@@ -496,18 +479,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 498000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.45.14 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-02 at 10.45.14.jpeg"
-      }
     ]
   },
   {
@@ -517,9 +488,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Beat Series",
     "otr_price": 20850000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.48.15.jpeg",
-      "WhatsApp Image 2026-07-02 at 10.48.16 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.48.16.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.48.15.png",
+      "WhatsApp Image 2026-07-02 at 10.48.16 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.48.16.png"
     ],
     "installments": [
       {
@@ -742,23 +713,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 505000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Street Black",
-        "hex": "#1c1c1c",
-        "image": "WhatsApp Image 2026-07-02 at 10.48.15.jpeg"
-      },
-      {
-        "colorName": "Street Silver",
-        "hex": "#b0bec5",
-        "image": "WhatsApp Image 2026-07-02 at 10.48.16 (1).jpeg"
-      },
-      {
-        "colorName": "Street Matte Blue",
-        "hex": "#1e3d59",
-        "image": "WhatsApp Image 2026-07-02 at 10.48.16.jpeg"
-      }
     ]
   },
   {
@@ -768,9 +722,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "ADV Series",
     "otr_price": 40500000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.57 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.57 (2).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.57 (3).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.57 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.45.57 (2).png",
+      "WhatsApp Image 2026-07-03 at 19.45.57 (3).png"
     ],
     "installments": [
       {
@@ -1183,23 +1137,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 874000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.57 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.57 (2).jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.57 (3).jpeg"
-      }
     ]
   },
   {
@@ -1209,7 +1146,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "ADV Series",
     "otr_price": 42100000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.58.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.58.png"
     ],
     "installments": [
       {
@@ -1612,13 +1549,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 953000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.58.jpeg"
-      }
     ]
   },
   {
@@ -1628,9 +1558,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "ADV Series",
     "otr_price": 37450000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.56 (2).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.56 (3).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.57.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.56 (2).png",
+      "WhatsApp Image 2026-07-03 at 19.45.56 (3).png",
+      "WhatsApp Image 2026-07-03 at 19.45.57.png"
     ],
     "installments": [
       {
@@ -2033,23 +1963,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 770000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.56 (2).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.56 (3).jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.57.jpeg"
-      }
     ]
   },
   {
@@ -2059,9 +1972,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Beat Series",
     "otr_price": 19675000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.43.31 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.43.31 (2).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.43.31.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.43.31 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.43.31 (2).png",
+      "WhatsApp Image 2026-07-02 at 10.43.31.png"
     ],
     "installments": [
       {
@@ -2284,23 +2197,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 445000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.43.31 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-02 at 10.43.31 (2).jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-02 at 10.43.31.jpeg"
-      }
     ]
   },
   {
@@ -2310,8 +2206,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Beat Series",
     "otr_price": 20725000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.45.38 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.45.38.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.45.38 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.45.38.png"
     ],
     "installments": [
       {
@@ -2534,18 +2430,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 498000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.45.38 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-02 at 10.45.38.jpeg"
-      }
     ]
   },
   {
@@ -2555,9 +2439,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Beat Series",
     "otr_price": 21300000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.46.32 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.46.32.jpeg",
-      "WhatsApp Image 2026-07-02 at 10.46.33.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.46.32 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.46.32.png",
+      "WhatsApp Image 2026-07-02 at 10.46.33.png"
     ],
     "installments": [
       {
@@ -2780,23 +2664,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 528000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.46.32 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-02 at 10.46.32.jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-02 at 10.46.33.jpeg"
-      }
     ]
   },
   {
@@ -2806,9 +2673,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Beat Series",
     "otr_price": 20850000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.48.43 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.48.43 (2).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.48.43.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.48.43 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.48.43 (2).png",
+      "WhatsApp Image 2026-07-02 at 10.48.43.png"
     ],
     "installments": [
       {
@@ -3031,23 +2898,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 505000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Street Black",
-        "hex": "#1c1c1c",
-        "image": "WhatsApp Image 2026-07-02 at 10.48.43 (1).jpeg"
-      },
-      {
-        "colorName": "Street Silver",
-        "hex": "#b0bec5",
-        "image": "WhatsApp Image 2026-07-02 at 10.48.43 (2).jpeg"
-      },
-      {
-        "colorName": "Street Matte Blue",
-        "hex": "#1e3d59",
-        "image": "WhatsApp Image 2026-07-02 at 10.48.43.jpeg"
-      }
     ]
   },
   {
@@ -3057,8 +2907,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 25225000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.03 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.03.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.03 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.03.png"
     ],
     "installments": [
       {
@@ -3311,18 +3161,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 600000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.03 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.03.jpeg"
-      }
     ]
   },
   {
@@ -3332,7 +3170,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 24575000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.04.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.04.png"
     ],
     "installments": [
       {
@@ -3595,13 +3433,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 561000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.04.jpeg"
-      }
     ]
   },
   {
@@ -3611,9 +3442,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 35350000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.04 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.05 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.05 (2).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.04 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.05 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.05 (2).png"
     ],
     "installments": [
       {
@@ -3826,23 +3657,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 590000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.04 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.05 (1).jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.05 (2).jpeg"
-      }
     ]
   },
   {
@@ -3852,8 +3666,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 34325000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.05.jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.06.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.05.png",
+      "WhatsApp Image 2026-07-03 at 19.46.06.png"
     ],
     "installments": [
       {
@@ -4066,18 +3880,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 542000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.05.jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.06.jpeg"
-      }
     ]
   },
   {
@@ -4087,7 +3889,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 35275000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.07 (2).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.07 (2).png"
     ],
     "installments": [
       {
@@ -4300,13 +4102,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 580000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.07 (2).jpeg"
-      }
     ]
   },
   {
@@ -4316,9 +4111,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 34775000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.07 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.07.jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.08.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.07 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.07.png",
+      "WhatsApp Image 2026-07-03 at 19.46.08.png"
     ],
     "installments": [
       {
@@ -4531,23 +4326,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 556000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.07 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.07.jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.08.jpeg"
-      }
     ]
   },
   {
@@ -4557,7 +4335,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 42875000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.57.25 (1).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.57.25 (1).png"
     ],
     "installments": [
       {
@@ -4800,13 +4578,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 729000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.57.25 (1).jpeg"
-      }
     ]
   },
   {
@@ -4816,7 +4587,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 43600000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.57.25 (2).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.57.25 (2).png"
     ],
     "installments": [
       {
@@ -5069,13 +4840,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 719000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.57.25 (2).jpeg"
-      }
     ]
   },
   {
@@ -5085,7 +4849,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 38750000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.18.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.18.png"
     ],
     "installments": [
       {
@@ -5318,13 +5082,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 630000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.18.jpeg"
-      }
     ]
   },
   {
@@ -5334,8 +5091,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 39450000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.31.jpeg",
-      "WhatsApp Image 2026-07-03 at 19.57.25.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.31.png",
+      "WhatsApp Image 2026-07-03 at 19.57.25.png"
     ],
     "installments": [
       {
@@ -5568,18 +5325,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 657000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.31.jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.57.25.jpeg"
-      }
     ]
   },
   {
@@ -5589,10 +5334,10 @@ export const DEFAULT_PRODUCTS = [
     "category": "Sport Series",
     "otr_price": 38525000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.08 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.09.jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.12.jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.15.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.08 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.09.png",
+      "WhatsApp Image 2026-07-03 at 19.46.12.png",
+      "WhatsApp Image 2026-07-03 at 19.46.15.png"
     ],
     "installments": [
       {
@@ -5915,28 +5660,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 786000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.08 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.09.jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.12.jpeg"
-      },
-      {
-        "colorName": "Garage Matte Black",
-        "hex": "#2d2d2d",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.15.jpeg"
-      }
     ]
   },
   {
@@ -5946,10 +5669,10 @@ export const DEFAULT_PRODUCTS = [
     "category": "Premium Series",
     "otr_price": 97425000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.58 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.58 (2).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.59 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.59.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.58 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.45.58 (2).png",
+      "WhatsApp Image 2026-07-03 at 19.45.59 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.45.59.png"
     ],
     "installments": [
       {
@@ -6312,28 +6035,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 2113000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.58 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.58 (2).jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.59 (1).jpeg"
-      },
-      {
-        "colorName": "Garage Matte Black",
-        "hex": "#2d2d2d",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.59.jpeg"
-      }
     ]
   },
   {
@@ -6343,7 +6044,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Genio Series",
     "otr_price": 21150000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.52.19.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.52.19.png"
     ],
     "installments": [
       {
@@ -6566,13 +6267,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 539000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Radiant Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.52.19.jpeg"
-      }
     ]
   },
   {
@@ -6582,9 +6276,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Genio Series",
     "otr_price": 21575000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.49.57 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.49.57.jpeg",
-      "WhatsApp Image 2026-07-02 at 10.49.58.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.49.57 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.49.57.png",
+      "WhatsApp Image 2026-07-02 at 10.49.58.png"
     ],
     "installments": [
       {
@@ -6837,23 +6531,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 486000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Radiant Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.49.57 (1).jpeg"
-      },
-      {
-        "colorName": "Radiant Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-02 at 10.49.57.jpeg"
-      },
-      {
-        "colorName": "Fabulous Matte Black",
-        "hex": "#262626",
-        "image": "WhatsApp Image 2026-07-02 at 10.49.58.jpeg"
-      }
     ]
   },
   {
@@ -6863,8 +6540,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Genio Series",
     "otr_price": 21150000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.51.13 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.51.13.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.51.13 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.51.13.png"
     ],
     "installments": [
       {
@@ -7087,18 +6764,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 539000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Radiant Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-02 at 10.51.13 (1).jpeg"
-      },
-      {
-        "colorName": "Radiant Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-02 at 10.51.13.jpeg"
-      }
     ]
   },
   {
@@ -7108,10 +6773,10 @@ export const DEFAULT_PRODUCTS = [
     "category": "PCX Series",
     "otr_price": 37925000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.54 (2).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.55 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.55 (2).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.55.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.54 (2).png",
+      "WhatsApp Image 2026-07-03 at 19.45.55 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.45.55 (2).png",
+      "WhatsApp Image 2026-07-03 at 19.45.55.png"
     ],
     "installments": [
       {
@@ -7434,28 +7099,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 980000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.54 (2).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.55 (1).jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.55 (2).jpeg"
-      },
-      {
-        "colorName": "Garage Matte Black",
-        "hex": "#2d2d2d",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.55.jpeg"
-      }
     ]
   },
   {
@@ -7465,8 +7108,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "PCX Series",
     "otr_price": 41250000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.56 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.56.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.56 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.45.56.png"
     ],
     "installments": [
       {
@@ -7779,18 +7422,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 1144000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.56 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.56.jpeg"
-      }
     ]
   },
   {
@@ -7800,10 +7431,10 @@ export const DEFAULT_PRODUCTS = [
     "category": "PCX Series",
     "otr_price": 34400000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.53 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.53.jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.54 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.45.54.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.53 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.45.53.png",
+      "WhatsApp Image 2026-07-03 at 19.45.54 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.45.54.png"
     ],
     "installments": [
       {
@@ -8136,28 +7767,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 806000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.53 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.53.jpeg"
-      },
-      {
-        "colorName": "Dance White",
-        "hex": "#ffffff",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.54 (1).jpeg"
-      },
-      {
-        "colorName": "Garage Matte Black",
-        "hex": "#2d2d2d",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.54.jpeg"
-      }
     ]
   },
   {
@@ -8167,8 +7776,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Bebek Series",
     "otr_price": 18250000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.45.59 (2).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.00.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.45.59 (2).png",
+      "WhatsApp Image 2026-07-03 at 19.46.00.png"
     ],
     "installments": [
       {
@@ -8331,18 +7940,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 492000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.45.59 (2).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.00.jpeg"
-      }
     ]
   },
   {
@@ -8352,8 +7949,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Bebek Series",
     "otr_price": 19975000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.00 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.00 (2).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.00 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.00 (2).png"
     ],
     "installments": [
       {
@@ -8556,18 +8153,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 465000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.00 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.00 (2).jpeg"
-      }
     ]
   },
   {
@@ -8577,10 +8162,10 @@ export const DEFAULT_PRODUCTS = [
     "category": "Scoopy Series",
     "otr_price": 23975000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.53.35 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.53.35 (2).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.53.35.jpeg",
-      "WhatsApp Image 2026-07-02 at 10.53.36.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.53.35 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.53.35 (2).png",
+      "WhatsApp Image 2026-07-02 at 10.53.35.png",
+      "WhatsApp Image 2026-07-02 at 10.53.36.png"
     ],
     "installments": [
       {
@@ -8843,28 +8428,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 524000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Fashion Blue",
-        "hex": "#1a73e8",
-        "image": "WhatsApp Image 2026-07-02 at 10.53.35 (1).jpeg"
-      },
-      {
-        "colorName": "Fashion Brown",
-        "hex": "#795548",
-        "image": "WhatsApp Image 2026-07-02 at 10.53.35 (2).jpeg"
-      },
-      {
-        "colorName": "Fashion Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 10.53.35.jpeg"
-      },
-      {
-        "colorName": "Fashion Black",
-        "hex": "#212121",
-        "image": "WhatsApp Image 2026-07-02 at 10.53.36.jpeg"
-      }
     ]
   },
   {
@@ -8874,9 +8437,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Scoopy Series",
     "otr_price": 24775000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.56.44 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.56.44 (2).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.56.44.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.56.44 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.56.44 (2).png",
+      "WhatsApp Image 2026-07-02 at 10.56.44.png"
     ],
     "installments": [
       {
@@ -9138,23 +8701,6 @@ export const DEFAULT_PRODUCTS = [
           "29": 667000,
           "35": 564000
         }
-      }
-    ],
-    "variants": [
-      {
-        "colorName": "Fashion Blue",
-        "hex": "#1a73e8",
-        "image": "WhatsApp Image 2026-07-02 at 10.56.44 (1).jpeg"
-      },
-      {
-        "colorName": "Fashion Brown",
-        "hex": "#795548",
-        "image": "WhatsApp Image 2026-07-02 at 10.56.44 (2).jpeg"
-      },
-      {
-        "colorName": "Fashion Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 10.56.44.jpeg"
       }
     ]
   },
@@ -9165,9 +8711,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Scoopy Series",
     "otr_price": 24775000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.55.20 (2).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.55.20(1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.55.20.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.55.20 (2).png",
+      "WhatsApp Image 2026-07-02 at 10.55.20(1).png",
+      "WhatsApp Image 2026-07-02 at 10.55.20.png"
     ],
     "installments": [
       {
@@ -9430,23 +8976,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 564000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Fashion Blue",
-        "hex": "#1a73e8",
-        "image": "WhatsApp Image 2026-07-02 at 10.55.20 (2).jpeg"
-      },
-      {
-        "colorName": "Fashion Brown",
-        "hex": "#795548",
-        "image": "WhatsApp Image 2026-07-02 at 10.55.20(1).jpeg"
-      },
-      {
-        "colorName": "Fashion Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 10.55.20.jpeg"
-      }
     ]
   },
   {
@@ -9456,9 +8985,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Stylo Series",
     "otr_price": 33025000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 11.10.51 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 11.10.51.jpeg",
-      "WhatsApp Image 2026-07-02 at 11.10.52.jpeg"
+      "WhatsApp Image 2026-07-02 at 11.10.51 (1).png",
+      "WhatsApp Image 2026-07-02 at 11.10.51.png",
+      "WhatsApp Image 2026-07-02 at 11.10.52.png"
     ],
     "installments": [
       {
@@ -9791,23 +9320,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 747000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Royal Matte Black",
-        "hex": "#1f1f1f",
-        "image": "WhatsApp Image 2026-07-02 at 11.10.51 (1).jpeg"
-      },
-      {
-        "colorName": "Glam Beige",
-        "hex": "#d7ccc8",
-        "image": "WhatsApp Image 2026-07-02 at 11.10.51.jpeg"
-      },
-      {
-        "colorName": "Royal Matte White",
-        "hex": "#eceff1",
-        "image": "WhatsApp Image 2026-07-02 at 11.10.52.jpeg"
-      }
     ]
   },
   {
@@ -9817,7 +9329,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Stylo Series",
     "otr_price": 34800000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 11.11.37.jpeg"
+      "WhatsApp Image 2026-07-02 at 11.11.37.png"
     ],
     "installments": [
       {
@@ -10140,13 +9652,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 836000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Royal Matte Black",
-        "hex": "#1f1f1f",
-        "image": "WhatsApp Image 2026-07-02 at 11.11.37.jpeg"
-      }
     ]
   },
   {
@@ -10156,9 +9661,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Stylo Series",
     "otr_price": 30050000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 11.09.38 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 11.09.38 (2).jpeg",
-      "WhatsApp Image 2026-07-02 at 11.09.38.jpeg"
+      "WhatsApp Image 2026-07-02 at 11.09.38 (1).png",
+      "WhatsApp Image 2026-07-02 at 11.09.38 (2).png",
+      "WhatsApp Image 2026-07-02 at 11.09.38.png"
     ],
     "installments": [
       {
@@ -10451,23 +9956,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 716000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Royal Matte Black",
-        "hex": "#1f1f1f",
-        "image": "WhatsApp Image 2026-07-02 at 11.09.38 (1).jpeg"
-      },
-      {
-        "colorName": "Glam Beige",
-        "hex": "#d7ccc8",
-        "image": "WhatsApp Image 2026-07-02 at 11.09.38 (2).jpeg"
-      },
-      {
-        "colorName": "Royal Matte White",
-        "hex": "#eceff1",
-        "image": "WhatsApp Image 2026-07-02 at 11.09.38.jpeg"
-      }
     ]
   },
   {
@@ -10477,8 +9965,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Bebek Series",
     "otr_price": 27525000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.01 (3).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.02 (2).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.01 (3).png",
+      "WhatsApp Image 2026-07-03 at 19.46.02 (2).png"
     ],
     "installments": [
       {
@@ -10751,18 +10239,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 629000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.01 (3).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.02 (2).jpeg"
-      }
     ]
   },
   {
@@ -10772,7 +10248,7 @@ export const DEFAULT_PRODUCTS = [
     "category": "Bebek Series",
     "otr_price": 21500000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.01.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.01.png"
     ],
     "installments": [
       {
@@ -10975,13 +10451,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 520000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.01.jpeg"
-      }
     ]
   },
   {
@@ -10991,8 +10460,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Bebek Series",
     "otr_price": 22600000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.01 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.01 (2).jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.01 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.01 (2).png"
     ],
     "installments": [
       {
@@ -11235,18 +10704,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 485000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.01 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.01 (2).jpeg"
-      }
     ]
   },
   {
@@ -11256,8 +10713,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Bebek Series",
     "otr_price": 27650000.0,
     "images": [
-      "WhatsApp Image 2026-07-03 at 19.46.02 (1).jpeg",
-      "WhatsApp Image 2026-07-03 at 19.46.02.jpeg"
+      "WhatsApp Image 2026-07-03 at 19.46.02 (1).png",
+      "WhatsApp Image 2026-07-03 at 19.46.02.png"
     ],
     "installments": [
       {
@@ -11530,18 +10987,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 643000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Funk Red Black",
-        "hex": "#cc1d24",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.02 (1).jpeg"
-      },
-      {
-        "colorName": "Hard Rock Black",
-        "hex": "#1a1a1a",
-        "image": "WhatsApp Image 2026-07-03 at 19.46.02.jpeg"
-      }
     ]
   },
   {
@@ -11551,9 +10996,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Vario Series",
     "otr_price": 25150000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.57.51 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.57.51.jpeg",
-      "WhatsApp Image 2026-07-02 at 10.57.52.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.57.51 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.57.51.png",
+      "WhatsApp Image 2026-07-02 at 10.57.52.png"
     ],
     "installments": [
       {
@@ -11816,23 +11261,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 611000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Active Black",
-        "hex": "#1c1c1c",
-        "image": "WhatsApp Image 2026-07-02 at 10.57.51 (1).jpeg"
-      },
-      {
-        "colorName": "Sporty Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 10.57.51.jpeg"
-      },
-      {
-        "colorName": "Matte Blue",
-        "hex": "#1a237e",
-        "image": "WhatsApp Image 2026-07-02 at 10.57.52.jpeg"
-      }
     ]
   },
   {
@@ -11842,9 +11270,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Vario Series",
     "otr_price": 27025000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 10.59.00 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 10.59.00.jpeg",
-      "WhatsApp Image 2026-07-02 at 10.59.01.jpeg"
+      "WhatsApp Image 2026-07-02 at 10.59.00 (1).png",
+      "WhatsApp Image 2026-07-02 at 10.59.00.png",
+      "WhatsApp Image 2026-07-02 at 10.59.01.png"
     ],
     "installments": [
       {
@@ -12147,23 +11575,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 586000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Active Black",
-        "hex": "#1c1c1c",
-        "image": "WhatsApp Image 2026-07-02 at 10.59.00 (1).jpeg"
-      },
-      {
-        "colorName": "Sporty Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 10.59.00.jpeg"
-      },
-      {
-        "colorName": "Matte Blue",
-        "hex": "#1a237e",
-        "image": "WhatsApp Image 2026-07-02 at 10.59.01.jpeg"
-      }
     ]
   },
   {
@@ -12173,9 +11584,9 @@ export const DEFAULT_PRODUCTS = [
     "category": "Vario Series",
     "otr_price": 27450000.0,
     "images": [
-      "IMG_202607185_094805202.jpeg",
-      "WhatsApp Image 2026-07-02 at 11.00.07.jpeg",
-      "WhatsApp Image 2026-07-02 at 11.00.08.jpeg"
+      "IMG_202607185_094805202.png",
+      "WhatsApp Image 2026-07-02 at 11.00.07.png",
+      "WhatsApp Image 2026-07-02 at 11.00.08.png"
     ],
     "installments": [
       {
@@ -12478,23 +11889,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 608000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Active Black",
-        "hex": "#1c1c1c",
-        "image": "IMG_202607185_094805202.jpeg"
-      },
-      {
-        "colorName": "Sporty Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 11.00.07.jpeg"
-      },
-      {
-        "colorName": "Matte Blue",
-        "hex": "#1a237e",
-        "image": "WhatsApp Image 2026-07-02 at 11.00.08.jpeg"
-      }
     ]
   },
   {
@@ -12504,10 +11898,10 @@ export const DEFAULT_PRODUCTS = [
     "category": "Vario Series",
     "otr_price": 31825000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 11.08.06 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 11.08.06 (2).jpeg",
-      "WhatsApp Image 2026-07-02 at 11.08.06.jpeg",
-      "WhatsApp Image 2026-07-02 at 11.08.07.jpeg"
+      "WhatsApp Image 2026-07-02 at 11.08.06 (1).png",
+      "WhatsApp Image 2026-07-02 at 11.08.06 (2).png",
+      "WhatsApp Image 2026-07-02 at 11.08.06.png",
+      "WhatsApp Image 2026-07-02 at 11.08.07.png"
     ],
     "installments": [
       {
@@ -12840,28 +12234,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 687000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Active Black",
-        "hex": "#1c1c1c",
-        "image": "WhatsApp Image 2026-07-02 at 11.08.06 (1).jpeg"
-      },
-      {
-        "colorName": "Sporty Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 11.08.06 (2).jpeg"
-      },
-      {
-        "colorName": "Matte Blue",
-        "hex": "#1a237e",
-        "image": "WhatsApp Image 2026-07-02 at 11.08.06.jpeg"
-      },
-      {
-        "colorName": "Matte Silver",
-        "hex": "#cfd8dc",
-        "image": "WhatsApp Image 2026-07-02 at 11.08.07.jpeg"
-      }
     ]
   },
   {
@@ -12871,8 +12243,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Vario Series",
     "otr_price": 28800000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 11.04.57 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 11.04.57.jpeg"
+      "WhatsApp Image 2026-07-02 at 11.04.57 (1).png",
+      "WhatsApp Image 2026-07-02 at 11.04.57.png"
     ],
     "installments": [
       {
@@ -13175,18 +12547,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 630000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Active Black",
-        "hex": "#1c1c1c",
-        "image": "WhatsApp Image 2026-07-02 at 11.04.57 (1).jpeg"
-      },
-      {
-        "colorName": "Sporty Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 11.04.57.jpeg"
-      }
     ]
   },
   {
@@ -13196,8 +12556,8 @@ export const DEFAULT_PRODUCTS = [
     "category": "Vario Series",
     "otr_price": 29050000.0,
     "images": [
-      "WhatsApp Image 2026-07-02 at 11.06.51 (1).jpeg",
-      "WhatsApp Image 2026-07-02 at 11.06.51.jpeg"
+      "WhatsApp Image 2026-07-02 at 11.06.51 (1).png",
+      "WhatsApp Image 2026-07-02 at 11.06.51.png"
     ],
     "installments": [
       {
@@ -13490,18 +12850,6 @@ export const DEFAULT_PRODUCTS = [
           "35": 667000
         }
       }
-    ],
-    "variants": [
-      {
-        "colorName": "Active Black",
-        "hex": "#1c1c1c",
-        "image": "WhatsApp Image 2026-07-02 at 11.06.51 (1).jpeg"
-      },
-      {
-        "colorName": "Sporty Red",
-        "hex": "#d32f2f",
-        "image": "WhatsApp Image 2026-07-02 at 11.06.51.jpeg"
-      }
     ]
   }
 ];
@@ -13578,5 +12926,41 @@ export const DEFAULT_TESTIMONIALS = [
     "location": "Pelabuhan Ratu",
     "text": "Unit All New Beat sampai tepat waktu dengan surat-surat lengkap. Dealer terpercaya!",
     "rating": 5
+  }
+];
+
+export const DEFAULT_PROMOS = [
+  {
+    "id": "promo-1",
+    "title": "Promo Motor Honda Terbaru - DP Mulai 1,2 Juta!",
+    "subtitle": "Dapatkan penawaran uang muka (DP) super ringan mulai Rp 1,2 Juta, proses cepat & mudah, gratis konsultasi cicilan, serta kesempatan memenangkan Hadiah Undian Umroh, Motor, dan Voucher Belanja!",
+    "tag": "Spesial Periode Berjalan",
+    "image": "promo/promo-banner.jpg",
+    "badge": "DP Mulai 1,2 Jt",
+    "ctaText": "Klaim Promo WhatsApp",
+    "active": true,
+    "order": 1
+  },
+  {
+    "id": "promo-2",
+    "title": "Program Spesial Honda - Diskon Cicilan & Hadiah Langsung",
+    "subtitle": "Beli motor impian Anda sekarang dengan angsuran super hemat dan bonus perlengkapan berkendara eksklusif.",
+    "tag": "Penawaran Terbatas",
+    "image": "promo/promo-1.jpg",
+    "badge": "Diskon Tenor",
+    "ctaText": "Klaim Promo WhatsApp",
+    "active": true,
+    "order": 2
+  },
+  {
+    "id": "promo-3",
+    "title": "Pesta Diskon Motor Honda Impian - Pengajuan Cepat",
+    "subtitle": "Syarat mudah cukup KTP & KK, berkas dijemput langsung ke rumah, unit motor baru dikirim aman sampai ke garasi Anda.",
+    "tag": "Proses Cepat",
+    "image": "promo/WhatsApp Image 2026-08-31 at 17.04.24.jpeg",
+    "badge": "Data Dijemput",
+    "ctaText": "Klaim Promo WhatsApp",
+    "active": true,
+    "order": 3
   }
 ];

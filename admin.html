@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Portal - Yusuf Selamat Motor Honda</title>
   <meta name="description" content="Dashboard Pengelolaan Katalog & Konten Yusuf Selamat Motor Honda">
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,12 +25,7 @@
     <div class="login-card">
       <div class="login-header">
         <div class="login-logo">
-          <!-- Honda Wing Clean SVG -->
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M2.5,3.5 C5.5,3.5 12,5.5 18,10.5 C20.5,12.5 22,14.5 22,16.5 C22,18 20.5,19 18.5,19 C15,19 10.5,15.5 6,11 C4.5,9.5 3,7.5 2.5,3.5 M4,5.5 C4.5,8 6,10 7.5,11.5 C11.5,15.5 15.5,18 18.5,18 C19.5,18 20.5,17.5 20.5,16.5 C20.5,15 19.5,13.5 17,11.5 C12,7 6.5,5 4,5.5 Z" />
-            <path d="M3.5,7 C6,7 11.5,8.5 16,12.5 C18,14.2 19,15.8 19,17 C19,18 18,18.5 17,18.5 C14.2,18.5 10.5,15.8 6.8,12 C5.5,10.8 4.2,9.2 3.5,7 Z" opacity="0.8" />
-            <path d="M4.5,10.5 C6.5,10.5 10.5,11.8 13.8,14.8 C15.2,16.1 16,17.2 16,18 C16,18.6 15.2,19 14.5,19 C12.2,19 9.2,17 6.2,13.8 C5.2,12.8 4.7,11.8 4.5,10.5 Z" opacity="0.6" />
-          </svg>
+          <img src="logo/logo-transparent.png" alt="Logo Yusuf Selamat Motor Honda" class="login-logo-img">
         </div>
         <h1 class="login-title">Portal Administrator</h1>
         <p class="login-subtitle">Yusuf Selamat Motor Honda</p>
@@ -101,9 +100,7 @@
     <aside class="sidebar" id="app-sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M2.5,3.5 C5.5,3.5 12,5.5 18,10.5 C20.5,12.5 22,14.5 22,16.5 C22,18 20.5,19 18.5,19 C15,19 10.5,15.5 6,11 C4.5,9.5 3,7.5 2.5,3.5 M4,5.5 C4.5,8 6,10 7.5,11.5 C11.5,15.5 15.5,18 18.5,18 C19.5,18 20.5,17.5 20.5,16.5 C20.5,15 19.5,13.5 17,11.5 C12,7 6.5,5 4,5.5 Z" />
-          </svg>
+          <img src="logo/logo-transparent.png" alt="Logo Yusuf Selamat Motor Honda" class="sidebar-logo-img">
         </div>
         <div>
           <div class="sidebar-brand-text">YUSUF SELAMAT</div>
@@ -121,6 +118,14 @@
             <rect x="3" y="14" width="7" height="7"></rect>
           </svg>
           <span>Ringkasan</span>
+        </div>
+
+        <div class="nav-item" data-tab="tab-promos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>Promo Saat Ini</span>
+          <span class="nav-badge" id="badge-promos-count">0</span>
         </div>
 
         <div class="nav-item" data-tab="tab-products">
@@ -232,6 +237,18 @@
             <div class="stat-card">
               <div class="stat-icon-wrapper red">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="stat-total-promos">0</span>
+                <span class="stat-label">Promo Aktif Berjalan</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrapper red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                   <line x1="3" y1="6" x2="21" y2="6"></line>
                   <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -268,18 +285,6 @@
                 <span class="stat-label">Testimoni Konsumen</span>
               </div>
             </div>
-
-            <div class="stat-card">
-              <div class="stat-icon-wrapper amber">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-              </div>
-              <div class="stat-info">
-                <span class="stat-value" id="stat-firebase-status" style="font-size: 18px;">Terkoneksi</span>
-                <span class="stat-label">Status Cloud Firestore</span>
-              </div>
-            </div>
           </div>
 
           <!-- Quick Actions & Tips -->
@@ -294,7 +299,11 @@
                 </h3>
               </div>
               <div class="card-body" style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn btn-primary" onclick="window.adminApp.openProductModal('add')">
+                <button class="btn btn-primary" onclick="window.adminApp.openPromoModal('add')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                  Kelola & Tambah Promo Baru
+                </button>
+                <button class="btn btn-outline" onclick="window.adminApp.openProductModal('add')">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                   Tambah Produk Motor Baru
                 </button>
@@ -308,7 +317,7 @@
                 </button>
                 <button class="btn btn-outline" onclick="window.adminApp.switchTab('tab-migration')">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                  Migrasi 46 Data Bawaan ke Firestore
+                  Migrasi Data Bawaan ke Firestore
                 </button>
               </div>
             </div>
@@ -339,7 +348,76 @@
         </section>
 
         <!-- ==================================================================
-             TAB 2: KATALOG PRODUK (FULL CRUD)
+             TAB 2: PROMO SAAT INI (FULL CRUD & REALTIME FIREBASE)
+             ================================================================== -->
+        <section id="tab-promos" class="tab-pane">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                  Daftar Promo & Brosur Berjalan
+                </h3>
+                <span class="card-subtitle">Kelola banner promo, judul penawaran, badge highlight, dan urutan tampil di website</span>
+              </div>
+              <button class="btn btn-primary" onclick="window.adminApp.openPromoModal('add')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Tambah Promo Baru
+              </button>
+            </div>
+
+            <div class="card-body">
+              <!-- Controls Filter & Search -->
+              <div class="controls-bar">
+                <div class="controls-left">
+                  <div class="search-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="admin-promo-search" placeholder="Cari judul promo atau tag...">
+                  </div>
+
+                  <select id="admin-promo-filter-status" class="form-select no-icon" style="width: 180px; padding: 9px 12px; font-size: 13px;">
+                    <option value="all">Semua Status</option>
+                    <option value="active">Hanya Aktif (Tayang)</option>
+                    <option value="inactive">Nonaktif / Draft</option>
+                  </select>
+                </div>
+
+                <div class="controls-right">
+                  <span style="font-size: 13px; color: var(--text-muted);" id="admin-promos-count-display">
+                    Menampilkan 0 promo
+                  </span>
+                </div>
+              </div>
+
+              <!-- Promos Table -->
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 65px;">Banner</th>
+                      <th>Judul & Detail Penawaran</th>
+                      <th>Badge Highlight</th>
+                      <th>Tombol CTA</th>
+                      <th style="text-align: center; width: 70px;">Urutan</th>
+                      <th style="text-align: center; width: 130px;">Status</th>
+                      <th style="text-align: center; width: 110px;">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-promos-table-body">
+                    <tr>
+                      <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                        Memuat data promo...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 3: KATALOG PRODUK (FULL CRUD)
              ================================================================== -->
         <section id="tab-products" class="tab-pane">
           <div class="card">
@@ -571,10 +649,10 @@
               <!-- 1-Click Migration Card -->
               <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
                 <h4 style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">
-                  1-Click Migrasi 46 Produk & 9 Testimoni ke Firestore
+                  1-Click Migrasi 46 Produk, Promo & 9 Testimoni ke Firestore
                 </h4>
                 <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
-                  Fitur ini akan mengunggah seluruh 46 model sepeda motor Honda (lengkap dengan varian warna, foto, harga OTR, dan skema simulasi cicilan) serta 9 testimoni konsumen ke koleksi <code>products</code> dan <code>testimonials</code> di Cloud Firestore Anda secara otomatis.
+                  Fitur ini akan mengunggah seluruh 46 model sepeda motor Honda (lengkap dengan varian warna, foto, harga OTR, dan skema simulasi cicilan), banner promo aktif berjalan, serta 9 testimoni konsumen ke koleksi <code>products</code>, <code>promos</code>, dan <code>testimonials</code> di Cloud Firestore Anda secara otomatis.
                 </p>
 
                 <div id="migration-progress-box" style="display: none; margin-bottom: 16px;">
@@ -670,6 +748,7 @@
 service cloud.firestore {
   match /databases/{database}/documents {
     match /products/{document=**} { allow read: if true; allow write: if request.auth != null; }
+    match /promos/{document=**} { allow read: if true; allow write: if request.auth != null; }
     match /testimonials/{document=**} { allow read: if true; allow write: if request.auth != null; }
     match /settings/{document=**} { allow read: if true; allow write: if request.auth != null; }
   }
@@ -932,6 +1011,86 @@ service cloud.firestore {
         <button type="button" class="btn btn-outline" onclick="window.adminApp.closeModal('modal-testi')">Batal</button>
         <button type="button" class="btn btn-primary" id="btn-save-testi">
           Simpan Testimoni
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TAMBAH / EDIT PROMO -->
+  <div class="modal-backdrop" id="modal-promo">
+    <div class="modal-box modal-md">
+      <div class="modal-head">
+        <h3 class="modal-title-text" id="modal-promo-title">Tambah Promo Baru</h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModal('modal-promo')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="modal-content-scroll">
+        <form id="form-promo">
+          <input type="hidden" id="promo-id">
+
+          <div class="form-group">
+            <label class="form-label" for="promo-title">Judul Promo *</label>
+            <input type="text" id="promo-title" class="form-input no-icon" placeholder="Contoh: Promo Spesial DP 1,2 Juta & Hadiah Umroh" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="promo-subtitle">Deskripsi / Detail Penawaran</label>
+            <textarea id="promo-subtitle" class="form-textarea no-icon" rows="2" placeholder="Tuliskan ringkasan promo atau keuntungan menarik..."></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="promo-tag">Tag / Periode</label>
+              <input type="text" id="promo-tag" class="form-input no-icon" placeholder="Contoh: Spesial Periode Berjalan">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="promo-badge">Highlight Badge</label>
+              <input type="text" id="promo-badge" class="form-input no-icon" placeholder="Contoh: DP Super Ringan">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="promo-cta-text">Teks Tombol WhatsApp</label>
+              <input type="text" id="promo-cta-text" class="form-input no-icon" placeholder="Klaim Promo WhatsApp" value="Klaim Promo WhatsApp">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="promo-order">Urutan Tampil (1, 2, ...)</label>
+              <input type="number" id="promo-order" class="form-input no-icon" value="1" min="1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Banner / Brosur Promo *</label>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="file" id="promo-file-input" accept="image/*" style="font-size: 13px;">
+              <input type="hidden" id="promo-img-data">
+            </div>
+            <div style="margin-top: 6px;">
+              <input type="text" id="promo-img-url" class="form-input no-icon" placeholder="Atau masukkan path file / URL (contoh: promo/promo-1.jpg)">
+            </div>
+            <div id="promo-preview-box" style="margin-top: 10px; display: none;">
+              <img id="promo-preview-img" src="" alt="Preview Promo" style="max-height: 160px; border-radius: var(--radius-sm); border: 1px solid var(--border); object-fit: cover;">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="promo-active" checked>
+              <span style="font-weight: 600; font-size: 13.5px;">Aktifkan dan tayangkan promo ini di landing page</span>
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="window.adminApp.closeModal('modal-promo')">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-save-promo">
+          Simpan Promo
         </button>
       </div>
     </div>

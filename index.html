@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YUSUF SELAMAT MOTOR HONDA - Katalog Resmi Promo Cash & Cicilan Murah</title>
     <meta name="description" content="Katalog resmi sepeda motor Honda terbaru di Yusuf Selamat Motor Honda. Dapatkan penawaran harga cash dan cicilan murah dengan DP ringan dan tenor hingga 35 bulan. Pesan mudah via WhatsApp.">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,12 +21,7 @@
     <header class="header">
         <div class="header__container">
             <a href="#" class="header__logo">
-                <svg class="header__logo-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <!-- Wing shape silhouette for clean minimalist aesthetic -->
-                    <path d="M2.5,3.5 C5.5,3.5 12,5.5 18,10.5 C20.5,12.5 22,14.5 22,16.5 C22,18 20.5,19 18.5,19 C15,19 10.5,15.5 6,11 C4.5,9.5 3,7.5 2.5,3.5 M4,5.5 C4.5,8 6,10 7.5,11.5 C11.5,15.5 15.5,18 18.5,18 C19.5,18 20.5,17.5 20.5,16.5 C20.5,15 19.5,13.5 17,11.5 C12,7 6.5,5 4,5.5 Z" />
-                    <path d="M3.5,7 C6,7 11.5,8.5 16,12.5 C18,14.2 19,15.8 19,17 C19,18 18,18.5 17,18.5 C14.2,18.5 10.5,15.8 6.8,12 C5.5,10.8 4.2,9.2 3.5,7 Z" opacity="0.8" />
-                    <path d="M4.5,10.5 C6.5,10.5 10.5,11.8 13.8,14.8 C15.2,16.1 16,17.2 16,18 C16,18.6 15.2,19 14.5,19 C12.2,19 9.2,17 6.2,13.8 C5.2,12.8 4.7,11.8 4.5,10.5 Z" opacity="0.6" />
-                </svg>
+                <img src="logo/logo-transparent.png" alt="Yusuf Selamat Motor Honda" class="header__logo-img">
                 <span class="header__logo-text">YUSUF SELAMAT<span class="header__logo-text--highlight"> MOTOR HONDA</span></span>
             </a>
             
@@ -50,7 +48,7 @@
         </div>
     </header>
 
-    <!-- Hero Showcase Section -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero__container">
             <div class="hero__content">
@@ -61,18 +59,32 @@
                 </p>
                 <div class="hero__ctas">
                     <a href="#katalog" class="btn btn--primary">Lihat Katalog</a>
-                    <a href="#tentang" class="btn btn--outline">Pelajari Lebih Lanjut</a>
+                    <a href="#tentang" class="btn btn--outline">Tentang Kami</a>
                 </div>
             </div>
             
-            <div class="hero__visual">
-                <div class="hero__glow"></div>
-                <!-- Featured Product: Stylo 160 or Vario 160 -->
-                <img src="Foto Produk/ALL NEW STYLO CBS/WhatsApp Image 2026-07-02 at 11.09.38.jpeg" alt="Honda Stylo 160 Showcase" class="hero__img" onerror="this.src='Foto Produk/ALL NEW STYLO ABS/WhatsApp Image 2026-07-02 at 11.10.51.jpeg';">
-                <div class="hero__badge">
-                    <span class="hero__badge-label">Model Unggulan</span>
-                    <span class="hero__badge-name">All New Stylo 160</span>
+            <!-- Hero 3D Center-Focus Promo Carousel (Poster Ratio) -->
+            <div class="hero__carousel-wrapper">
+                <div class="hero-carousel" id="js-hero-carousel">
+                    <div class="hero-carousel__stage" id="js-hero-carousel-stage">
+                        <!-- Promo slides rendered dynamically via script.js -->
+                    </div>
+                    <!-- Navigation Buttons -->
+                    <button type="button" class="hero-carousel__btn hero-carousel__btn--prev" id="js-hero-prev" aria-label="Promo Sebelumnya">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button type="button" class="hero-carousel__btn hero-carousel__btn--next" id="js-hero-next" aria-label="Promo Selanjutnya">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
                 </div>
+                <!-- Carousel Dots Pagination -->
+                <div class="hero-carousel__dots" id="js-hero-dots"></div>
+                <!-- Promo Saat Ini Label Below Poster -->
+                <div class="hero-carousel__label">Promo Saat Ini</div>
             </div>
         </div>
     </section>
@@ -319,9 +331,7 @@
         <div class="footer__container">
             <div class="footer__brand-col">
                 <a href="#" class="footer__logo">
-                    <svg class="footer__logo-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M2.5,3.5 C5.5,3.5 12,5.5 18,10.5 C20.5,12.5 22,14.5 22,16.5 C22,18 20.5,19 18.5,19 C15,19 10.5,15.5 6,11 C4.5,9.5 3,7.5 2.5,3.5 M4,5.5 C4.5,8 6,10 7.5,11.5 C11.5,15.5 15.5,18 18.5,18 C19.5,18 20.5,17.5 20.5,16.5 C20.5,15 19.5,13.5 17,11.5 C12,7 6.5,5 4,5.5 Z" />
-                    </svg>
+                    <img src="logo/logo-transparent.png" alt="Yusuf Selamat Motor Honda" class="footer__logo-img">
                     <span>YUSUF SELAMAT<span class="footer__logo-text--highlight"> MOTOR HONDA</span></span>
                 </a>
                 <p class="footer__desc">
@@ -333,6 +343,7 @@
                 <h4 class="footer__title">Tautan Cepat</h4>
                 <ul class="footer__links">
                     <li><a href="#">Beranda</a></li>
+                    <li><a href="#promo">Promo Saat Ini</a></li>
                     <li><a href="#katalog">Katalog Produk</a></li>
                     <li><a href="#tentang">Tentang Kami</a></li>
                     <li><a href="#testimoni">Ulasan Konsumen</a></li>
@@ -384,7 +395,7 @@
             </button>
             
             <div class="modal-card__body">
-                <!-- Gallery Column -->
+                <!-- Gallery & Product Info Column (Foto, Warna & Keterangan) -->
                 <div class="modal-card__gallery">
                     <!-- Motor Gallery Container -->
                     <div id="js-modal-gallery-images" class="modal-gallery-images active">
@@ -396,218 +407,250 @@
                         </div>
                     </div>
                     
-                    <!-- Motor Name and Category (Moved here) -->
-                    <div class="modal-card__brand-header" style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; display: flex; flex-direction: column; align-items: flex-start;">
-                        <span class="modal-card__category" id="js-modal-category" style="margin-bottom: 4px;">Beat Series</span>
-                        <h2 class="modal-card__title" id="js-modal-title" style="margin-bottom: 0; font-size: 24px;">All New Beat CBS</h2>
+                    <!-- Motor Name and Category -->
+                    <div class="modal-card__brand-header">
+                        <span class="modal-card__category" id="js-modal-category">Beat Series</span>
+                        <h2 class="modal-card__title" id="js-modal-title">All New Beat CBS</h2>
                     </div>
-                </div>
-                
-                <!-- Details/Configurator Column -->
-                <div class="modal-card__details">
-                    
-                    <p class="modal-card__desc" id="js-modal-desc">
-                        Sepeda motor matic handal dengan konsumsi bahan bakar yang sangat hemat, dibekali teknologi rangka eSAF terbaru untuk kenyamanan manuver yang maksimal.
-                    </p>
-                    
-                    <!-- Color Swatches Selection -->
-                    <div class="modal-card__section">
-                        <span class="modal-card__section-label">Pilih Warna / Varian:</span>
+
+                    <!-- Color Swatches Selection (Pilihan Warna di Bawah Foto) -->
+                    <div class="modal-card__section modal-card__section--colors">
+                        <span class="modal-card__section-label">Pilihan Warna / Varian:</span>
                         <div class="variant-swatches" id="js-modal-swatches">
                             <!-- Swatches dynamically generated -->
                         </div>
                         <span class="variant-active-name" id="js-modal-active-variant-name">Funk Red Black</span>
                     </div>
-                    
-                    <!-- Payment Toggle (Cash vs Cicilan) -->
-                    <div class="modal-card__section">
-                        <span class="modal-card__section-label">Metode Pembayaran:</span>
-                        <div class="payment-toggle" id="js-payment-toggle-container">
-                            <div class="slider" id="js-payment-toggle-slider"></div>
-                            <button type="button" class="active" id="js-toggle-cash">Harga Cash</button>
-                            <button type="button" id="js-toggle-credit">Simulasi Kredit</button>
-                        </div>
+
+                    <!-- Keterangan & Deskripsi Produk (Keterangan di Bawah Warna) -->
+                    <div class="modal-card__desc-wrapper">
+                        <span class="modal-card__desc-label">Keterangan Produk:</span>
+                        <p class="modal-card__desc" id="js-modal-desc">
+                            Sepeda motor matic handal dengan konsumsi bahan bakar yang sangat hemat, dibekali teknologi rangka eSAF terbaru untuk kenyamanan manuver yang maksimal.
+                        </p>
                     </div>
-                    
-                    <!-- Cash Details Panel -->
-                    <div class="payment-panel active" id="js-panel-cash">
-                        <div class="price-box">
-                            <span class="price-box__label">Harga OTR Cash (Tunai)</span>
-                            <span class="price-box__val" id="js-modal-cash-price">Rp 19.675.000</span>
-                        </div>
-                        <p class="payment-panel__note" style="margin-bottom: 12px;">Harga Cash sudah termasuk kepengurusan STNK dan BPKB plat wilayah setempat.</p>
-                        <!-- Insurance Section in Cash Panel -->
-                        <div class="cash-insurance-section" style="margin-top: 14px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fdfdfd; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                            <h4 style="font-size: 13px; font-weight: 700; color: #cc1d24; margin: 0 0 8px 0; display: flex; align-items: center; gap: 6px;">
-                                <span>🛡️</span> Proteksi Asuransi Cash (Gratis)
-                            </h4>
-                            <p style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.4;">
-                                Pembelian tunai (Cash) otomatis mendapatkan perlindungan asuransi 12 bulan:
-                            </p>
-                            <ul style="list-style: none; padding: 0; margin: 0 0 10px 0; display: flex; flex-direction: column; gap: 5px; font-size: 10.5px; line-height: 1.35;">
-                                <li style="display: flex; gap: 6px; align-items: flex-start;">
-                                    <span style="color: #2e7d32; font-weight: bold;">✓</span>
-                                    <span><strong>TLO (Total Loss Only):</strong> Ganti rugi kehilangan (pencurian/pembegalan) & kerusakan total ≥75%.</span>
-                                </li>
-                                <li style="display: flex; gap: 6px; align-items: flex-start;">
-                                    <span style="color: #2e7d32; font-weight: bold;">✓</span>
-                                    <span><strong>Kecelakaan Diri:</strong> Santunan finansial pengendara jika terjadi kecelakaan lalu lintas.</span>
-                                </li>
-                                <li style="display: flex; gap: 6px; align-items: flex-start;">
-                                    <span style="color: #2e7d32; font-weight: bold;">✓</span>
-                                    <span><strong>Klaim via Dealer:</strong> Proses klaim dibantu penuh oleh tim dealer kami secara cepat & mudah.</span>
-                                </li>
-                            </ul>
-                            
-                            <div style="border-top: 1px dashed var(--border); margin: 8px 0;"></div>
-                            
-                            <h5 style="font-size: 11px; font-weight: 700; color: var(--dark); margin: 0 0 6px 0; display: flex; align-items: center; gap: 4px;">
-                                <span>📋</span> Daftar & Tarif Asuransi Cash:
-                            </h5>
-                            <!-- Scrollable rate list -->
-                            <div class="insurance-rates-scroll" style="max-height: 140px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px; background: #f8f9fa;">
-                                <!-- CUB -->
-                                <div style="margin-bottom: 10px;">
-                                    <div style="font-weight: 800; font-size: 9.5px; color: #0d6efd; text-transform: uppercase; border-bottom: 1px solid #0d6efd; padding-bottom: 2px; margin-bottom: 5px; letter-spacing: 0.02em;">CUB / BEBEK</div>
-                                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; font-size: 10px;">
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>REVO FIT</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 600.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>SUPRA X 125 CW</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 750.000</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- MATIC -->
-                                <div style="margin-bottom: 10px;">
-                                    <div style="font-weight: 800; font-size: 9.5px; color: #0d6efd; text-transform: uppercase; border-bottom: 1px solid #0d6efd; padding-bottom: 2px; margin-bottom: 5px; letter-spacing: 0.02em;">MATIC</div>
-                                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; font-size: 10px;">
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>BeAT SPORTY CBS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 650.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>BeAT SPORTY DELUXE</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 700.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>BeAT STREET</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 700.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>GENIO CBS / ISS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 700.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>SCOOPY Series</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 850.000 - 875.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>VARIO 125 Series</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 800.000 - 900.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>STYLO 160 CBS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.000.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>STYLO 160 ABS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.100.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>STYLO 160 ABS SE</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.150.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>PCX 160 CBS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 950.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>PCX 160 ABS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.050.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>ADV 160 CBS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.100.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>ADV 160 ABS</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.250.000 - 1.350.000</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- SPORT -->
-                                <div style="margin-bottom: 2px;">
-                                    <div style="font-weight: 800; font-size: 9.5px; color: #0d6efd; text-transform: uppercase; border-bottom: 1px solid #0d6efd; padding-bottom: 2px; margin-bottom: 5px; letter-spacing: 0.02em;">SPORT & PREMIUM</div>
-                                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; font-size: 10px;">
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>CB 150 VERZA</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 850.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>CB150R Series</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.200.000 - 1.300.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>CB150X Series</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.300.000 - 1.350.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>CRF 150</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.250.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>CBR150R Series</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 1.750.000 - 1.950.000</span>
-                                        </li>
-                                        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #dee2e6; padding-bottom: 2px;">
-                                            <span>FORZA</span>
-                                            <span style="font-weight: 700; color: #2e7d32;">Rp 3.500.000</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Credit Simulasi Panel -->
-                    <div class="payment-panel" id="js-panel-credit">
-                        <!-- Uang Muka Selector -->
-                        <div class="form-group">
-                            <label class="form-label" for="js-select-dp">Uang Muka (Down Payment):</label>
-                            <div class="select-wrapper">
-                                <select id="js-select-dp" class="select-input">
-                                    <!-- Options generated dynamically -->
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <!-- Tenor / Jangka Waktu Grid -->
-                        <div class="form-group">
-                            <label class="form-label">Tenor & Angsuran per Bulan:</label>
-                            <div class="tenor-grid" id="js-tenor-grid">
-                                <!-- Tenor boxes generated dynamically -->
-                            </div>
-                        </div>
-                        
-                        <!-- Selected Summary Info -->
-                        <div class="price-box">
-                            <span class="price-box__label">Simulasi Angsuran per Bulan</span>
-                            <span class="price-box__val" id="js-modal-installment-rate">Rp 885.000</span>
-                            <span class="price-box__subtext" id="js-modal-installment-summary">Tenor 35 Bulan | Uang Muka Rp 2.000.000</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Order CTA Button -->
-                    <button class="btn btn--primary btn--large btn--icon-left modal-card__order-btn" id="js-order-btn">
-                        <svg class="modal-card__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                        </svg>
-                        Hubungi via WhatsApp & Pesan Sekarang
-                    </button>
                 </div>
+                
+                <!-- Details & Simulasi Harga Column -->
+                <div class="modal-card__details">
+                    <!-- ==========================================================
+                         SECTION: SIMULASI HARGA (UNIFIED REDESIGN)
+                         ========================================================== -->
+                    <div class="simulasi-harga-card">
+                        <div class="simulasi-harga-header">
+                            <svg class="simulasi-harga-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                                <line x1="12" y1="18" x2="12" y2="18"></line>
+                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                            </svg>
+                            <span class="simulasi-harga-header-title">Simulasi Harga</span>
+                        </div>
+
+                        <!-- a. Harga Cash (Angka berubah otomatis saat asuransi dicentang) -->
+                        <div class="sim-cash-block">
+                            <div class="sim-cash-row">
+                                <span class="sim-cash-label">Harga Cash:</span>
+                                <span class="sim-cash-number" id="js-modal-cash-price">Rp 19.675.000</span>
+                            </div>
+                            <span class="sim-cash-status" id="js-cash-status-note">Harga OTR resmi plat Sukabumi & sekitarnya</span>
+                        </div>
+
+                        <!-- b. Checkbox Asuransi + Link Benefit -->
+                        <div class="sim-insurance-row">
+                            <label class="sim-insurance-checkbox-label" for="js-insurance-checkbox">
+                                <input type="checkbox" id="js-insurance-checkbox" class="sim-insurance-checkbox-input">
+                                <span class="sim-custom-checkbox">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </span>
+                                <span class="sim-insurance-text" id="js-insurance-label-text">
+                                    Asuransi (+Rp 650.000)
+                                </span>
+                            </label>
+
+                            <button type="button" class="sim-insurance-benefit-link" id="js-btn-insurance-benefit" title="Lihat Rincian Manfaat Asuransi">
+                                <svg class="sim-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                <span>Lihat Benefit</span>
+                            </button>
+                        </div>
+
+                        <!-- c. Simulasi Kredit (Dihitung terpisah dari harga motor) -->
+                        <div class="sim-credit-block">
+                            <div class="sim-credit-header-row">
+                                <span class="sim-credit-title">Simulasi Kredit</span>
+                                <span class="sim-credit-badge">Cicilan Ringan</span>
+                            </div>
+
+                            <!-- DP Selector -->
+                            <div class="sim-field-group">
+                                <label class="sim-field-label" for="js-select-dp">Uang Muka (DP):</label>
+                                <div class="select-wrapper">
+                                    <select id="js-select-dp" class="select-input">
+                                        <!-- Options generated dynamically -->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Tenor Selector Grid -->
+                            <div class="sim-field-group">
+                                <label class="sim-field-label">Pilihan Tenor:</label>
+                                <div class="tenor-grid" id="js-tenor-grid">
+                                    <!-- Tenor buttons dynamically generated -->
+                                </div>
+                            </div>
+
+                            <!-- Result Box Cicilan -->
+                            <div class="sim-rate-result-box">
+                                <span class="sim-rate-result-label">Cicilan per bulan:</span>
+                                <span class="sim-rate-result-val" id="js-modal-installment-rate">Rp 885.000 / bln</span>
+                                <span class="sim-rate-result-sub" id="js-modal-installment-summary">Tenor 35 Bulan | DP Rp 2.000.000</span>
+                            </div>
+                        </div>
+
+                        <!-- Order CTA Button -->
+                        <button class="btn btn--primary btn--large btn--icon-left modal-card__order-btn" id="js-order-btn">
+                            <svg class="modal-card__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                            Hubungi via WhatsApp & Pesan Sekarang
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup Rincian Manfaat Asuransi -->
+    <div class="modal-overlay" id="modal-insurance-benefits" style="z-index: 1050;">
+        <div class="insurance-modal-card">
+            <div class="insurance-modal-head">
+                <div class="insurance-modal-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>Rincian Manfaat & Proteksi Asuransi Cash</span>
+                </div>
+                <button class="modal-card__close-btn" id="js-close-insurance-modal" aria-label="Tutup Rincian Asuransi">
+                    <svg class="modal-card__close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="insurance-modal-body">
+                <p class="insurance-modal-intro">
+                    Opsi proteksi asuransi khusus pembelian tunai (Cash) untuk ketenangan berkendara selama 12 bulan penuh:
+                </p>
+
+                <div class="insurance-benefits-grid">
+                    <div class="benefit-item-card">
+                        <div class="benefit-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="benefit-item-text">
+                            <strong>Total Loss Only (TLO)</strong>
+                            <p>Ganti rugi kehilangan akibat pencurian/pembegalan dan kerusakan total di atas 75%.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item-card">
+                        <div class="benefit-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <div class="benefit-item-text">
+                            <strong>Santunan Kecelakaan Diri</strong>
+                            <p>Perlindungan finansial bagi pengendara apabila terjadi kecelakaan lalu lintas.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item-card">
+                        <div class="benefit-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                            </svg>
+                        </div>
+                        <div class="benefit-item-text">
+                            <strong>Klaim Dibantu Dealer</strong>
+                            <p>Proses administrasi dan klaim asuransi didampingi penuh oleh tim dealer kami.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insurance-rate-list-wrapper">
+                    <div class="insurance-rate-list-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        <span>Daftar Tarif Premi Asuransi Cash Per Kategori</span>
+                    </div>
+                    <div class="insurance-rate-table-scroll">
+                        <table class="insurance-rate-table">
+                            <thead>
+                                <tr>
+                                    <th>Kategori / Model Motor</th>
+                                    <th style="text-align: right;">Tarif Asuransi (1 Thn)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Revo Fit</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 600.000</td></tr>
+                                <tr><td>Supra X 125 CW</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 750.000</td></tr>
+                                <tr><td>BeAT Sporty CBS / New</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 650.000</td></tr>
+                                <tr><td>BeAT Deluxe / Street</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 700.000</td></tr>
+                                <tr><td>Genio CBS / ISS</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 700.000</td></tr>
+                                <tr><td>Scoopy Fashion / Prestige / Stylish</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 850.000 - Rp 875.000</td></tr>
+                                <tr><td>Vario 125 CBS / ISS / Street</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 800.000 - Rp 900.000</td></tr>
+                                <tr><td>Stylo 160 CBS / ABS / Special</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 1.000.000 - Rp 1.150.000</td></tr>
+                                <tr><td>Vario EVO / Vario 160 Series</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 950.000 - Rp 1.050.000</td></tr>
+                                <tr><td>PCX 160 CBS / ABS / R.Sync</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 1.100.000 - Rp 1.350.000</td></tr>
+                                <tr><td>ADV 160 CBS / ABS / R.Sync</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 1.200.000 - Rp 1.350.000</td></tr>
+                                <tr><td>CB 150 Verza CW / CRF 150L</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 850.000 - Rp 1.250.000</td></tr>
+                                <tr><td>CB150R / CB150X / CBR150R</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 1.250.000 - Rp 1.850.000</td></tr>
+                                <tr><td>ICON-e / CUV-e Series (Motor Listrik)</td><td style="text-align: right; font-weight: 700; color: #cc1d24;">Rp 900.000 - Rp 1.950.000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn--primary btn--large" style="width: 100%; margin-top: 16px;" onclick="document.getElementById('modal-insurance-benefits').classList.remove('active')">
+                    Tutup Informasi Manfaat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Promo Flyer Lightbox -->
+    <div class="modal-overlay" id="modal-promo-lightbox" style="z-index: 1100;">
+        <div class="promo-lightbox-card">
+            <button class="modal-card__close-btn" id="js-close-promo-lightbox" aria-label="Tutup Promo">
+                <svg class="modal-card__close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="promo-lightbox-img-wrapper">
+                <img id="js-promo-lightbox-img" src="" alt="Brosur Promo Motor Honda">
+            </div>
+            <div class="promo-lightbox-footer">
+                <button type="button" class="btn btn--primary btn--icon-left" id="js-btn-promo-lightbox-order">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                    Klaim Promo Ini via WhatsApp
+                </button>
             </div>
         </div>
     </div>

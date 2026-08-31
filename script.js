@@ -3,17 +3,18 @@
 // Real-time Firestore Integration with Offline Fallback
 // ==========================================================================
 
-import { DEFAULT_PRODUCTS, DEFAULT_TESTIMONIALS, DEFAULT_SETTINGS } from "./default-data.js";
+import { DEFAULT_PRODUCTS, DEFAULT_TESTIMONIALS, DEFAULT_SETTINGS, DEFAULT_PROMOS } from "./default-data.js";
 import { db, collection, doc, onSnapshot, query, orderBy } from "./firebase-config.js";
 
 // RUNTIME STATE
 let PRODUCTS_DATA = [...DEFAULT_PRODUCTS];
 let TESTIMONIALS_DATA = [...DEFAULT_TESTIMONIALS];
 let SETTINGS_DATA = { ...DEFAULT_SETTINGS };
+let PROMOS_DATA = [...DEFAULT_PROMOS];
 
 let currentProduct = null;
 let currentVariantIndex = 0;
-let currentPaymentMode = "cash"; // "cash" | "cicilan"
+let isInsuranceSelected = false;
 let currentDpValue = null;
 let currentTenor = null;
 
@@ -23,10 +24,10 @@ export function formatRupiah(amount) {
   return "Rp " + Math.round(amount).toLocaleString("id-ID");
 }
 
-// HELPER: Resolve product image URL
+// HELPER: Resolve product image URL (Transparent PNG prioritized)
 export function resolveProductImage(product, imageFileNameOrUrl) {
   if (!imageFileNameOrUrl) {
-    if (product.imageUrl) return product.imageUrl;
+    if (product.imageUrl) return resolveProductImage(product, product.imageUrl);
     if (product.variants && product.variants[0] && product.variants[0].image) {
       return resolveProductImage(product, product.variants[0].image);
     }
@@ -38,13 +39,20 @@ export function resolveProductImage(product, imageFileNameOrUrl) {
       imageFileNameOrUrl.startsWith("blob:")) {
     return imageFileNameOrUrl;
   }
-  if (imageFileNameOrUrl.startsWith("Foto Produk/")) {
-    return imageFileNameOrUrl;
+  
+  // Prefer transparent .png version if .jpeg/.jpg is passed
+  let processedName = imageFileNameOrUrl;
+  if (processedName.toLowerCase().endsWith(".jpeg") || processedName.toLowerCase().endsWith(".jpg")) {
+    processedName = processedName.replace(/\.(jpeg|jpg|JPEG|JPG)$/i, ".png");
+  }
+
+  if (processedName.startsWith("Foto Produk/")) {
+    return processedName;
   }
   if (product.folder) {
-    return `Foto Produk/${product.folder}/${imageFileNameOrUrl}`;
+    return `Foto Produk/${product.folder}/${processedName}`;
   }
-  return imageFileNameOrUrl;
+  return processedName;
 }
 
 // HELPER: Resolve testimonial image URL
@@ -60,6 +68,106 @@ export function resolveTestimonialImage(imgStr) {
   return `Foto Testimoni History/${imgStr}`;
 }
 
+// HELPER: Resolve promo image URL
+export function resolvePromoImage(imgStr) {
+  if (!imgStr) return "promo/WhatsApp Image 2026-08-31 at 17.04.24.jpeg";
+  if (imgStr.startsWith("http://") || 
+      imgStr.startsWith("https://") || 
+      imgStr.startsWith("data:image/") ||
+      imgStr.startsWith("blob:") ||
+      imgStr.startsWith("promo/")) {
+    return imgStr;
+  }
+  return `promo/${imgStr}`;
+}
+
+// HELPER: Get insurance rate per product category/model from official pricelist
+export function getInsuranceRate(product) {
+  if (!product) return 650000;
+  if (product.insurance_price && Number(product.insurance_price) > 0) {
+    return Number(product.insurance_price);
+  }
+  
+  const name = (product.name || "").toUpperCase();
+  const cat = (product.category || "").toUpperCase();
+  
+  // 1. CUB / BEBEK
+  if (name.includes("REVO")) return 600000;
+  if (name.includes("SUPRA")) return 750000;
+  
+  // 2. MATIC
+  if (name.includes("BEAT")) {
+    if (name.includes("DELUXE")) return 700000;
+    if (name.includes("STREET")) return 700000;
+    return 650000; // CBS
+  }
+  
+  if (name.includes("GENIO")) return 700000;
+  
+  if (name.includes("SCOOPY")) {
+    if (name.includes("STYLISH")) return 875000;
+    if (name.includes("PRESTIGE") || name.includes("FASHION")) return 850000;
+    return 850000;
+  }
+  
+  if (name.includes("VARIO 125") || (name.includes("VARIO") && !name.includes("160") && !name.includes("EVO"))) {
+    if (name.includes("ISS") || name.includes("STREET")) return 900000;
+    return 800000; // CBS
+  }
+  
+  if (name.includes("STYLO 160") || name.includes("STYLO")) {
+    if (name.includes("ABS") && (name.includes("SE") || name.includes("SPECIAL"))) return 1150000;
+    if (name.includes("ABS")) return 1100000;
+    return 1000000; // CBS
+  }
+  
+  if (name.includes("VARIO EVO") || name.includes("VARIO 160")) {
+    if (name.includes("ABS")) return 1050000;
+    if (name.includes("NITRO")) return 950000;
+    return 950000; // CBS / Lama
+  }
+  
+  if (name.includes("PCX 160") || name.includes("PCX")) {
+    if (name.includes("R.SYNC") || name.includes("RSYNC")) return 1350000;
+    if (name.includes("ABS")) return 1250000;
+    return 1100000; // CBS
+  }
+  
+  if (name.includes("ADV 160") || name.includes("ADV")) {
+    if (name.includes("R.SYNC") || name.includes("RSYNC")) return 1350000;
+    if (name.includes("ABS")) return 1300000;
+    return 1200000; // CBS
+  }
+  
+  // 3. SPORT
+  if (name.includes("CB 150 VERZA") || name.includes("VERZA")) return 850000;
+  if (name.includes("CB150R") || name.includes("CB 150 R")) return 1250000;
+  if (name.includes("CB150X") || name.includes("CB 150 X")) return 1300000;
+  if (name.includes("CRF")) return 1250000;
+  if (name.includes("CBR")) return 1850000;
+  if (name.includes("FORZA")) return 3500000;
+  
+  // 4. EV (Motor Listrik)
+  if (name.includes("ICON-E") || name.includes("ICON")) return 900000;
+  if (name.includes("CUV-E") || name.includes("CUV")) {
+    if (name.includes("DUO") || name.includes("R.SYNC")) return 1950000;
+    return 1750000;
+  }
+  
+  // Category fallbacks
+  if (cat.includes("BEBEK") || cat.includes("CUB")) return 650000;
+  if (cat.includes("BEAT") || cat.includes("GENIO")) return 700000;
+  if (cat.includes("SCOOPY")) return 850000;
+  if (cat.includes("VARIO")) return 850000;
+  if (cat.includes("STYLO")) return 1000000;
+  if (cat.includes("PCX")) return 1100000;
+  if (cat.includes("ADV")) return 1200000;
+  if (cat.includes("SPORT")) return 1200000;
+  if (cat.includes("PREMIUM") || cat.includes("EV")) return 1500000;
+  
+  return 700000;
+}
+
 // ==========================================================================
 // INITIALIZATION & REALTIME FIRESTORE LISTENERS
 // ==========================================================================
@@ -70,6 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initUI() {
   // Render initial static data
+  renderHeroCarousel(PROMOS_DATA);
+  renderPromos(PROMOS_DATA);
   renderProducts(PRODUCTS_DATA);
   renderTestimonials(TESTIMONIALS_DATA);
   applySettings(SETTINGS_DATA);
@@ -78,7 +188,7 @@ function initUI() {
   setupNavigation();
   setupFilterAndSearch();
   setupModalEvents();
-  setupPaymentToggle();
+  initTilt3D();
 }
 
 function setupRealtimeListeners() {
@@ -88,7 +198,29 @@ function setupRealtimeListeners() {
   }
 
   try {
-    // 1. Listen to 'products' collection
+    // 1. Listen to 'promos' collection
+    const promosRef = collection(db, "promos");
+    onSnapshot(promosRef, (snapshot) => {
+      if (!snapshot.empty) {
+        const loadedPromos = [];
+        snapshot.forEach((docSnap) => {
+          loadedPromos.push({
+            id: docSnap.id,
+            ...docSnap.data()
+          });
+        });
+        if (loadedPromos.length > 0) {
+          PROMOS_DATA = loadedPromos.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+          renderHeroCarousel(PROMOS_DATA);
+          renderPromos(PROMOS_DATA);
+          console.log(`Realtime Firestore: ${loadedPromos.length} promo dimuat.`);
+        }
+      }
+    }, (error) => {
+      console.warn("Firestore promos realtime listener info:", error.message);
+    });
+
+    // 2. Listen to 'products' collection
     const productsRef = collection(db, "products");
     onSnapshot(productsRef, (snapshot) => {
       if (!snapshot.empty) {
@@ -340,7 +472,7 @@ function renderProducts(productsList) {
         <div class="product-card__content">
           <h3 class="product-card__title">${p.name}</h3>
           <div class="product-card__price-row">
-            <span class="product-card__price-cash">${formatRupiah(p.otr_price)} (OTR) <span class="badge-asuransi-card" title="Pembelian cash mendapatkan proteksi asuransi">🛡️ + Asuransi</span></span>
+            <span class="product-card__price-cash">${formatRupiah(p.otr_price)} (OTR) <span class="badge-asuransi-card" title="Tersedia opsi asuransi perlindungan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> + Asuransi</span></span>
             <span class="product-card__price-installment">${installmentText}</span>
           </div>
           <button class="btn btn--outline product-card__btn" onclick="window.openProductModal('${p.id}')">Lihat Detail</button>
@@ -348,7 +480,549 @@ function renderProducts(productsList) {
       </article>
     `;
   }).join("");
+
+  // Initialize interactive 3D Tilt for product card thumbnails
+  initTilt3D();
 }
+
+// ==========================================================================
+// HERO PROMO 3D COVERFLOW CAROUSEL
+// ==========================================================================
+let heroCurrentIndex = 0;
+let heroAutoplayTimer = null;
+let heroPromoItems = [];
+let isHeroDragging = false;
+let heroDragStartX = 0;
+let heroDragDeltaX = 0;
+
+export function renderHeroCarousel(promosList) {
+  const stage = document.getElementById("js-hero-carousel-stage");
+  const dotsContainer = document.getElementById("js-hero-dots");
+  const prevBtn = document.getElementById("js-hero-prev");
+  const nextBtn = document.getElementById("js-hero-next");
+  const carouselEl = document.getElementById("js-hero-carousel");
+  
+  if (!stage) return;
+
+  // Filter active promos
+  let rawPromos = (promosList || []).filter(p => p.active !== false);
+  
+  // If rawPromos is empty, provide default promo banners
+  if (rawPromos.length === 0) {
+    rawPromos = [
+      { id: "fallback-1", image: "promo/promo-banner.jpg", title: "Promo Motor Honda Terbaru" },
+      { id: "fallback-2", image: "promo/promo-1.jpg", title: "Diskon Angsuran Spesial" },
+      { id: "fallback-3", image: "promo/WhatsApp Image 2026-08-31 at 17.04.24.jpeg", title: "DP Super Ringan" }
+    ];
+  }
+
+  // Ensure minimum 3 items for coverflow effect (repeat if fewer than 3)
+  heroPromoItems = [...rawPromos];
+  if (heroPromoItems.length === 1) {
+    heroPromoItems = [
+      { ...heroPromoItems[0], _key: "1" },
+      { ...heroPromoItems[0], _key: "2" },
+      { ...heroPromoItems[0], _key: "3" }
+    ];
+  } else if (heroPromoItems.length === 2) {
+    heroPromoItems = [
+      heroPromoItems[0],
+      heroPromoItems[1],
+      { ...heroPromoItems[0], _key: "copy1" },
+      { ...heroPromoItems[1], _key: "copy2" }
+    ];
+  }
+
+  if (heroCurrentIndex >= heroPromoItems.length) {
+    heroCurrentIndex = 0;
+  }
+
+  // Render slides: purely images (no text / labels as requested)
+  stage.innerHTML = heroPromoItems.map((item, idx) => {
+    const imgSrc = resolvePromoImage(item.image);
+    return `
+      <div class="hero-carousel__slide" data-index="${idx}" onclick="window.handleHeroSlideClick(${idx})" title="Klik untuk fokus ke promo ini">
+        <img src="${imgSrc}" alt="${item.title || "Promo Motor Honda"}" class="hero-carousel__img" loading="lazy" onerror="this.src='promo/WhatsApp Image 2026-08-31 at 17.04.24.jpeg'">
+      </div>
+    `;
+  }).join("");
+
+  // Render Dots
+  if (dotsContainer) {
+    dotsContainer.innerHTML = heroPromoItems.map((_, idx) => `
+      <button type="button" class="hero-carousel__dot ${idx === heroCurrentIndex ? "active" : ""}" 
+              onclick="window.goToHeroSlide(${idx})" 
+              aria-label="Pilih Banner Promo ${idx + 1}">
+      </button>
+    `).join("");
+  }
+
+  updateHeroCarouselPositions();
+  setupHeroCarouselEvents(carouselEl, prevBtn, nextBtn);
+  startHeroAutoplay();
+}
+
+function updateHeroCarouselPositions() {
+  const slides = document.querySelectorAll(".hero-carousel__slide");
+  const dots = document.querySelectorAll(".hero-carousel__dot");
+  const total = heroPromoItems.length;
+  if (total === 0 || slides.length === 0) return;
+
+  slides.forEach((slide, idx) => {
+    slide.classList.remove("is-center", "is-left", "is-right", "is-hidden-left", "is-hidden-right");
+    
+    // Calculate circular shortest distance
+    let diff = (idx - heroCurrentIndex) % total;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+
+    if (diff === 0) {
+      slide.classList.add("is-center");
+    } else if (diff === -1 || (diff === total - 1 && total <= 2)) {
+      slide.classList.add("is-left");
+    } else if (diff === 1 || (diff === -(total - 1) && total <= 2)) {
+      slide.classList.add("is-right");
+    } else if (diff < -1) {
+      slide.classList.add("is-hidden-left");
+    } else {
+      slide.classList.add("is-hidden-right");
+    }
+  });
+
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle("active", idx === heroCurrentIndex);
+  });
+}
+
+window.goToHeroSlide = function(index) {
+  const total = heroPromoItems.length;
+  if (total === 0) return;
+  heroCurrentIndex = (index + total) % total;
+  updateHeroCarouselPositions();
+  restartHeroAutoplay();
+};
+
+window.nextHeroSlide = function() {
+  window.goToHeroSlide(heroCurrentIndex + 1);
+};
+
+window.prevHeroSlide = function() {
+  window.goToHeroSlide(heroCurrentIndex - 1);
+};
+
+window.handleHeroSlideClick = function(clickedIndex) {
+  const total = heroPromoItems.length;
+  if (total === 0) return;
+
+  let diff = (clickedIndex - heroCurrentIndex) % total;
+  if (diff > total / 2) diff -= total;
+  if (diff < -total / 2) diff += total;
+
+  if (diff === 0) {
+    // Clicked center focused slide -> open lightbox if valid ID
+    const promo = heroPromoItems[heroCurrentIndex];
+    if (promo && promo.id && !promo.id.startsWith("fallback-")) {
+      window.openPromoLightbox(promo.id);
+    }
+  } else {
+    // Clicked side slide -> move to center smoothly
+    window.goToHeroSlide(clickedIndex);
+  }
+};
+
+let heroEventsBound = false;
+function setupHeroCarouselEvents(carouselEl, prevBtn, nextBtn) {
+  if (heroEventsBound || !carouselEl) return;
+  heroEventsBound = true;
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.prevHeroSlide();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.nextHeroSlide();
+    });
+  }
+
+  // Swipe / Drag Gestures (Touch & Mouse)
+  const onDragStart = (clientX) => {
+    isHeroDragging = true;
+    heroDragStartX = clientX;
+    heroDragDeltaX = 0;
+    carouselEl.classList.add("is-dragging");
+    pauseHeroAutoplay();
+  };
+
+  const onDragMove = (clientX) => {
+    if (!isHeroDragging) return;
+    heroDragDeltaX = clientX - heroDragStartX;
+  };
+
+  const onDragEnd = () => {
+    if (!isHeroDragging) return;
+    isHeroDragging = false;
+    carouselEl.classList.remove("is-dragging");
+    
+    if (heroDragDeltaX < -35) {
+      window.nextHeroSlide();
+    } else if (heroDragDeltaX > 35) {
+      window.prevHeroSlide();
+    }
+    startHeroAutoplay();
+  };
+
+  // Touch events
+  carouselEl.addEventListener("touchstart", (e) => {
+    if (e.touches && e.touches.length === 1) {
+      onDragStart(e.touches[0].clientX);
+    }
+  }, { passive: true });
+
+  carouselEl.addEventListener("touchmove", (e) => {
+    if (e.touches && e.touches.length === 1) {
+      onDragMove(e.touches[0].clientX);
+    }
+  }, { passive: true });
+
+  carouselEl.addEventListener("touchend", onDragEnd);
+  carouselEl.addEventListener("touchcancel", onDragEnd);
+
+  // Mouse events
+  carouselEl.addEventListener("mousedown", (e) => {
+    if (e.button === 0) {
+      onDragStart(e.clientX);
+    }
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (isHeroDragging) {
+      onDragMove(e.clientX);
+    }
+  });
+
+  window.addEventListener("mouseup", (e) => {
+    if (isHeroDragging) {
+      onDragEnd();
+    }
+  });
+
+  carouselEl.addEventListener("mouseenter", pauseHeroAutoplay);
+  carouselEl.addEventListener("mouseleave", () => {
+    if (!isHeroDragging) startHeroAutoplay();
+  });
+}
+
+function startHeroAutoplay() {
+  if (heroAutoplayTimer) clearInterval(heroAutoplayTimer);
+  heroAutoplayTimer = setInterval(() => {
+    window.nextHeroSlide();
+  }, 5000);
+}
+
+function pauseHeroAutoplay() {
+  if (heroAutoplayTimer) {
+    clearInterval(heroAutoplayTimer);
+    heroAutoplayTimer = null;
+  }
+}
+
+function restartHeroAutoplay() {
+  pauseHeroAutoplay();
+  startHeroAutoplay();
+}
+
+// ==========================================================================
+// 3D INTERACTIVE TILT ENGINE (REQUESTANIMATIONFRAME OPTIMIZED)
+// ==========================================================================
+export function initTilt3D() {
+  // 1. Primary: Modal Main Image 3D Tilt
+  const modalContainer = document.querySelector(".modal-card__main-img-container");
+  if (modalContainer) {
+    setupTiltElement(modalContainer, {
+      targetSelector: "#js-modal-main-img",
+      maxTilt: 14,
+      scale: 1.05,
+      glare: true
+    });
+  }
+
+  // 2. Secondary: Subtle Tilt on Catalog Cards
+  const productCards = document.querySelectorAll(".product-card__img-container");
+  productCards.forEach(container => {
+    setupTiltElement(container, {
+      targetSelector: ".product-card__img",
+      maxTilt: 8,
+      scale: 1.03,
+      glare: false
+    });
+  });
+
+  // 3. Mobile / Viewport Scroll-Into-View Subtle 3D Tilt-In
+  setupScrollIntoViewTilt();
+}
+
+function setupTiltElement(container, options = {}) {
+  if (!container || container._hasTilt) return;
+  container._hasTilt = true;
+
+  const targetSelector = options.targetSelector || "img";
+  const target = container.querySelector(targetSelector);
+  if (!target) return;
+
+  const maxTilt = options.maxTilt || 12;
+  const scale = options.scale || 1.04;
+  const hasGlare = options.glare !== false;
+
+  // Add glare element if requested
+  let glareEl = container.querySelector(".tilt-glare");
+  if (hasGlare && !glareEl) {
+    glareEl = document.createElement("div");
+    glareEl.className = "tilt-glare";
+    container.appendChild(glareEl);
+  }
+
+  let mouseX = 0, mouseY = 0;
+  let currentRotateX = 0, currentRotateY = 0, currentScale = 1;
+  let targetRotateX = 0, targetRotateY = 0, targetScaleVal = 1;
+  let isHovered = false;
+  let rafId = null;
+
+  const updateAnimation = () => {
+    // Lerp smoothing (0.15 easing)
+    currentRotateX += (targetRotateX - currentRotateX) * 0.15;
+    currentRotateY += (targetRotateY - currentRotateY) * 0.15;
+    currentScale += (targetScaleVal - currentScale) * 0.15;
+
+    // Apply 3D Transform & Dynamic Drop Shadow following tilt direction
+    const shadowX = -currentRotateY * 1.6;
+    const shadowY = currentRotateX * 1.6 + 15;
+    const shadowBlur = 18 + Math.abs(currentRotateX) + Math.abs(currentRotateY);
+    
+    target.style.transform = `perspective(1000px) rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg) scale3d(${currentScale.toFixed(3)}, ${currentScale.toFixed(3)}, 1)`;
+    target.style.filter = `drop-shadow(${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px ${shadowBlur.toFixed(1)}px rgba(0,0,0,0.16))`;
+
+    if (glareEl) {
+      if (isHovered) {
+        const glarePercentX = (mouseX + 0.5) * 100;
+        const glarePercentY = (mouseY + 0.5) * 100;
+        glareEl.style.background = `radial-gradient(circle at ${glarePercentX.toFixed(1)}% ${glarePercentY.toFixed(1)}%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 65%)`;
+        glareEl.style.opacity = "1";
+      } else {
+        glareEl.style.opacity = "0";
+      }
+    }
+
+    // Continue loop if moving
+    const isSettled = Math.abs(targetRotateX - currentRotateX) < 0.01 && 
+                      Math.abs(targetRotateY - currentRotateY) < 0.01 && 
+                      Math.abs(targetScaleVal - currentScale) < 0.005;
+
+    if (!isSettled || isHovered) {
+      rafId = requestAnimationFrame(updateAnimation);
+    } else {
+      rafId = null;
+      if (!isHovered) {
+        target.style.transform = "";
+        target.style.filter = "";
+      }
+    }
+  };
+
+  const onMouseMove = (e) => {
+    const rect = container.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+    mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+
+    targetRotateX = -mouseY * maxTilt * 2;
+    targetRotateY = mouseX * maxTilt * 2;
+    targetScaleVal = scale;
+    isHovered = true;
+
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateAnimation);
+    }
+  };
+
+  const onMouseLeave = () => {
+    isHovered = false;
+    targetRotateX = 0;
+    targetRotateY = 0;
+    targetScaleVal = 1;
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateAnimation);
+    }
+  };
+
+  container.addEventListener("mousemove", onMouseMove);
+  container.addEventListener("mouseleave", onMouseLeave);
+}
+
+// Mobile / Scroll Intersection Observer for subtle 3D Tilt-In
+function setupScrollIntoViewTilt() {
+  if (!("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target.querySelector("img");
+        if (img && !entry.target._hasAnimated) {
+          entry.target._hasAnimated = true;
+          img.animate([
+            { transform: "perspective(800px) rotateY(-8deg) rotateX(4deg) scale(0.96)", filter: "drop-shadow(-8px 12px 14px rgba(0,0,0,0.15))" },
+            { transform: "perspective(800px) rotateY(4deg) rotateX(-2deg) scale(1.02)", filter: "drop-shadow(6px 14px 18px rgba(0,0,0,0.12))" },
+            { transform: "perspective(800px) rotateY(0deg) rotateX(0deg) scale(1)", filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.08))" }
+          ], {
+            duration: 800,
+            easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+            fill: "forwards"
+          });
+        }
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll(".product-card__img-container").forEach(el => observer.observe(el));
+}
+
+// ==========================================================================
+// PROMO SAAT INI RENDERING
+// ==========================================================================
+export function renderPromos(promosList) {
+  const container = document.getElementById("js-promos-container");
+  if (!container) return;
+
+  const activePromos = (promosList || []).filter(p => p.active !== false);
+
+  if (activePromos.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="padding: 40px 20px;">
+        <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <h3>Belum Ada Promo Aktif</h3>
+        <p>Promo menarik akan segera hadir. Silakan hubungi marketing kami via WhatsApp untuk penawaran spesial!</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="promos-grid">
+      ${activePromos.map(p => {
+        const imgSrc = resolvePromoImage(p.image);
+        const title = p.title || "Promo Motor Honda Terbaru";
+        const subtitle = p.subtitle || "Dapatkan kemudahan pembelian motor Honda impian Anda dengan promo menarik periode ini.";
+        const tag = p.tag || "Spesial Periode Berjalan";
+        const badge = p.badge || "DP Super Ringan";
+        const ctaText = p.ctaText || "Klaim Promo WhatsApp";
+
+        return `
+          <div class="promo-card">
+            <div class="promo-card__banner-wrapper" onclick="window.openPromoLightbox('${p.id}')" title="Klik untuk memperbesar brosur promo">
+              <img src="${imgSrc}" alt="${title}" class="promo-card__banner-img" loading="lazy" onerror="this.src='promo/WhatsApp Image 2026-08-31 at 17.04.24.jpeg'">
+              <div class="promo-card__zoom-hint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+                <span>Lihat Brosur</span>
+              </div>
+            </div>
+
+            <div class="promo-card__body">
+              <div>
+                <div class="promo-card__header-tags">
+                  <span class="promo-badge-tag">${tag}</span>
+                  ${badge ? `<span class="promo-badge-sub">${badge}</span>` : ""}
+                </div>
+
+                <h3 class="promo-card__title">${title}</h3>
+                <p class="promo-card__desc">${subtitle}</p>
+
+                <div class="promo-card__features">
+                  <div class="promo-card__feature-item">
+                    <svg class="promo-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Proses Cepat & Persyaratan Mudah (KTP + KK)</span>
+                  </div>
+                  <div class="promo-card__feature-item">
+                    <svg class="promo-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Pilihan DP Murah & Angsuran Paling Ringan</span>
+                  </div>
+                  <div class="promo-card__feature-item">
+                    <svg class="promo-card__feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Kesempatan Hadiah Undian Umroh, Motor & Voucher</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="promo-card__actions">
+                <button type="button" class="promo-card__btn-wa" onclick="window.claimPromoWA('${p.id}')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                  </svg>
+                  <span>${ctaText}</span>
+                </button>
+                <button type="button" class="promo-card__btn-view" onclick="window.openPromoLightbox('${p.id}')" title="Lihat Brosur Full">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <span>Detail</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+// PROMO LIGHTBOX & WA HANDLERS
+let currentActiveLightboxPromo = null;
+
+window.openPromoLightbox = function(promoId) {
+  const promo = PROMOS_DATA.find(p => String(p.id) === String(promoId));
+  if (!promo) return;
+
+  currentActiveLightboxPromo = promo;
+  const modal = document.getElementById("modal-promo-lightbox");
+  const imgEl = document.getElementById("js-promo-lightbox-img");
+
+  if (modal && imgEl) {
+    imgEl.src = resolvePromoImage(promo.image);
+    imgEl.alt = promo.title || "Brosur Promo Motor Honda";
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+};
+
+window.claimPromoWA = function(promoId) {
+  const promo = PROMOS_DATA.find(p => String(p.id) === String(promoId)) || currentActiveLightboxPromo;
+  const cleanWa = (SETTINGS_DATA.whatsapp || "6283163895963").replace(/[^0-9]/g, "");
+  
+  const promoTitle = promo ? promo.title : "Promo Terbaru";
+  const msg = `Halo Yusuf Selamat Motor Honda, saya ingin menanyakan dan mengklaim *${promoTitle}* yang sedang berjalan. Mohon info syarat dan prosesnya. Terima kasih!`;
+  
+  const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(msg)}`;
+  window.open(waUrl, "_blank");
+};
 
 // ==========================================================================
 // TESTIMONIALS RENDERING
@@ -407,33 +1081,68 @@ function renderTestimonials(testiList) {
 // MODAL & SIMULATOR
 // ==========================================================================
 function setupModalEvents() {
+  // 1. Main Product Detail Modal
   const modalClose = document.getElementById("js-modal-close");
   const modalOverlay = document.getElementById("js-modal");
   
-  if (modalClose) {
-    modalClose.addEventListener("click", closeModal);
-  }
+  if (modalClose) modalClose.addEventListener("click", closeModal);
   if (modalOverlay) {
     modalOverlay.addEventListener("click", (e) => {
       if (e.target === modalOverlay) closeModal();
     });
   }
 
-  const orderBtn = document.getElementById("js-order-btn");
-  if (orderBtn) {
-    orderBtn.addEventListener("click", generateWhatsAppLink);
-  }
-}
+  // 2. Insurance Benefit Modal
+  const insuranceModal = document.getElementById("modal-insurance-benefits");
+  const btnOpenInsurance = document.getElementById("js-btn-insurance-benefit");
+  const btnCloseInsurance = document.getElementById("js-close-insurance-modal");
 
-function setupPaymentToggle() {
-  const toggleCash = document.getElementById("js-toggle-cash");
-  const toggleCredit = document.getElementById("js-toggle-credit");
-  
-  if (toggleCash && toggleCredit) {
-    toggleCash.addEventListener("click", () => setPaymentMode("cash"));
-    toggleCredit.addEventListener("click", () => setPaymentMode("cicilan"));
+  if (btnOpenInsurance) {
+    btnOpenInsurance.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (insuranceModal) insuranceModal.classList.add("active");
+    });
+  }
+  if (btnCloseInsurance && insuranceModal) {
+    btnCloseInsurance.addEventListener("click", () => insuranceModal.classList.remove("active"));
+    insuranceModal.addEventListener("click", (e) => {
+      if (e.target === insuranceModal) insuranceModal.classList.remove("active");
+    });
   }
 
+  // 3. Promo Lightbox Modal
+  const promoLightboxModal = document.getElementById("modal-promo-lightbox");
+  const btnClosePromoLightbox = document.getElementById("js-close-promo-lightbox");
+  const btnPromoLightboxOrder = document.getElementById("js-btn-promo-lightbox-order");
+
+  if (btnClosePromoLightbox && promoLightboxModal) {
+    btnClosePromoLightbox.addEventListener("click", () => {
+      promoLightboxModal.classList.remove("active");
+      document.body.style.overflow = "";
+    });
+    promoLightboxModal.addEventListener("click", (e) => {
+      if (e.target === promoLightboxModal) {
+        promoLightboxModal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    });
+  }
+  if (btnPromoLightboxOrder) {
+    btnPromoLightboxOrder.addEventListener("click", () => {
+      window.claimPromoWA(currentActiveLightboxPromo ? currentActiveLightboxPromo.id : "");
+    });
+  }
+
+  // 4. Insurance Checkbox Dynamic Cash Price Update
+  const insuranceCheckbox = document.getElementById("js-insurance-checkbox");
+  if (insuranceCheckbox) {
+    insuranceCheckbox.addEventListener("change", (e) => {
+      isInsuranceSelected = e.target.checked;
+      updateCashPriceDisplay();
+    });
+  }
+
+  // 5. DP Select for Credit Simulation
   const selectDp = document.getElementById("js-select-dp");
   if (selectDp) {
     selectDp.addEventListener("change", (e) => {
@@ -441,6 +1150,39 @@ function setupPaymentToggle() {
       renderTenors();
       updateInstallmentRate();
     });
+  }
+
+  // 6. Order CTA Button
+  const orderBtn = document.getElementById("js-order-btn");
+  if (orderBtn) {
+    orderBtn.addEventListener("click", generateWhatsAppLink);
+  }
+}
+
+// HELPER: Update Cash Price based on insurance checkbox
+function updateCashPriceDisplay() {
+  if (!currentProduct) return;
+  const cashPriceEl = document.getElementById("js-modal-cash-price");
+  const statusNote = document.getElementById("js-cash-status-note");
+  const insRow = document.querySelector(".sim-insurance-row");
+  const insNominal = getInsuranceRate(currentProduct);
+
+  const finalCashPrice = isInsuranceSelected 
+    ? (currentProduct.otr_price + insNominal) 
+    : currentProduct.otr_price;
+
+  if (cashPriceEl) {
+    cashPriceEl.textContent = formatRupiah(finalCashPrice);
+  }
+
+  if (statusNote) {
+    statusNote.textContent = isInsuranceSelected 
+      ? "Harga OTR sudah termasuk opsi proteksi asuransi 1 tahun & pengurusan STNK/BPKB." 
+      : "Harga OTR resmi plat Sukabumi & sekitarnya (Belum termasuk opsi asuransi).";
+  }
+
+  if (insRow) {
+    insRow.classList.toggle("checked", isInsuranceSelected);
   }
 }
 
@@ -451,17 +1193,29 @@ window.openProductModal = function(productId) {
   
   currentProduct = product;
   currentVariantIndex = 0;
-  currentPaymentMode = "cash";
+  isInsuranceSelected = false; // Reset insurance checkbox state on open
   
   // Set text elements
   const elCategory = document.getElementById("js-modal-category");
   const elTitle = document.getElementById("js-modal-title");
-  const elCashPrice = document.getElementById("js-modal-cash-price");
   const elDesc = document.getElementById("js-modal-desc");
+  const elInsLabel = document.getElementById("js-insurance-label-text");
+  const insCheckbox = document.getElementById("js-insurance-checkbox");
 
   if (elCategory) elCategory.textContent = product.category || "Motor Honda";
   if (elTitle) elTitle.textContent = product.name;
-  if (elCashPrice) elCashPrice.textContent = formatRupiah(product.otr_price);
+  
+  // Dynamic insurance rate
+  const insNominal = getInsuranceRate(product);
+  if (elInsLabel) {
+    elInsLabel.textContent = `Asuransi (+${formatRupiah(insNominal)})`;
+  }
+  if (insCheckbox) {
+    insCheckbox.checked = false;
+  }
+
+  // Update initial cash price
+  updateCashPriceDisplay();
   
   // Dynamic description
   if (elDesc) {
@@ -485,13 +1239,15 @@ window.openProductModal = function(productId) {
   
   renderModalSwatches();
   updateModalMainImage();
-  setPaymentMode("cash");
   populateDpSelect();
   
   const modal = document.getElementById("js-modal");
   if (modal) {
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
+    setTimeout(() => {
+      initTilt3D();
+    }, 50);
   }
 };
 
@@ -614,40 +1370,6 @@ function updateThumbnailSelection() {
   });
 }
 
-function setPaymentMode(mode) {
-  currentPaymentMode = mode;
-  
-  const toggleContainer = document.getElementById("js-payment-toggle-container");
-  const toggleCash = document.getElementById("js-toggle-cash");
-  const toggleCredit = document.getElementById("js-toggle-credit");
-  const panelCash = document.getElementById("js-panel-cash");
-  const panelCredit = document.getElementById("js-panel-credit");
-  
-  if (mode === "cash") {
-    if (toggleContainer) toggleContainer.classList.remove("cicilan-active");
-    if (toggleCash) toggleCash.classList.add("active");
-    if (toggleCredit) toggleCredit.classList.remove("active");
-    if (panelCash) panelCash.classList.add("active");
-    if (panelCredit) panelCredit.classList.remove("active");
-  } else {
-    if (toggleContainer) toggleContainer.classList.add("cicilan-active");
-    if (toggleCash) toggleCash.classList.remove("active");
-    if (toggleCredit) toggleCredit.classList.add("active");
-    if (panelCash) panelCash.classList.remove("active");
-    if (panelCredit) panelCredit.classList.add("active");
-    
-    // Auto select DP and first tenor
-    if (currentProduct) {
-      const dpSelect = document.getElementById("js-select-dp");
-      if (dpSelect && dpSelect.options.length > 0) {
-        currentDpValue = parseInt(dpSelect.value);
-        renderTenors();
-        updateInstallmentRate();
-      }
-    }
-  }
-}
-
 function populateDpSelect() {
   const dpSelect = document.getElementById("js-select-dp");
   if (!dpSelect || !currentProduct) return;
@@ -657,7 +1379,7 @@ function populateDpSelect() {
   if (!currentProduct.installments || currentProduct.installments.length === 0) {
     if (currentProduct.priceCredit) {
       // Simple credit mode
-      const defaultDp = 2000000;
+      const defaultDp = currentProduct.dp || 2000000;
       const opt = document.createElement("option");
       opt.value = defaultDp;
       opt.textContent = `${formatRupiah(defaultDp)} (DP Rekomendasi)`;
@@ -667,6 +1389,8 @@ function populateDpSelect() {
       dpSelect.innerHTML = `<option value="0">Konsultasikan DP dengan Marketing</option>`;
       currentDpValue = 0;
     }
+    renderTenors();
+    updateInstallmentRate();
     return;
   }
   
@@ -681,6 +1405,8 @@ function populateDpSelect() {
   });
   
   currentDpValue = sorted[0].dp;
+  renderTenors();
+  updateInstallmentRate();
 }
 
 function renderTenors() {
@@ -773,16 +1499,24 @@ function generateWhatsAppLink() {
   const variants = currentProduct.variants || [];
   const variantName = variants[currentVariantIndex] ? variants[currentVariantIndex].colorName : "Standar";
   
-  let messageText = `Halo Yusuf Selamat Motor Honda, saya ingin menanyakan pemesanan unit sepeda motor Honda berikut:\n\n`;
-  messageText += `*Detail Pesanan:*\n`;
+  const insNominal = getInsuranceRate(currentProduct);
+  const finalCashPrice = isInsuranceSelected ? (currentProduct.otr_price + insNominal) : currentProduct.otr_price;
+
+  let messageText = `Halo Yusuf Selamat Motor Honda, saya tertarik dan ingin memesan unit sepeda motor Honda berikut:\n\n`;
+  messageText += `*Detail Unit Pesanan:*\n`;
   messageText += `• Motor: *${currentProduct.name}*\n`;
   messageText += `• Kategori: ${currentProduct.category || "Motor Honda"}\n`;
-  messageText += `• Varian Warna: ${variantName}\n`;
+  messageText += `• Varian Warna: ${variantName}\n\n`;
   
-  if (currentPaymentMode === "cash") {
-    messageText += `• Metode Pembayaran: *CASH (TUNAI)*\n`;
-    messageText += `• Total Harga OTR: *${formatRupiah(currentProduct.otr_price)}*\n`;
-  } else {
+  messageText += `*Simulasi Harga:*\n`;
+  messageText += `• Harga OTR Cash: *${formatRupiah(finalCashPrice)}*`;
+  if (isInsuranceSelected) {
+    messageText += ` _(Termasuk Opsi Asuransi 1 Tahun +${formatRupiah(insNominal)})_`;
+  }
+  messageText += `\n`;
+
+  // Include credit calculation details
+  if (currentDpValue !== null && currentTenor !== null) {
     let monthlyRate = 0;
     if (currentProduct.installments && currentProduct.installments.length > 0) {
       const dpObj = currentProduct.installments.find(inst => Number(inst.dp) === Number(currentDpValue));
@@ -790,14 +1524,14 @@ function generateWhatsAppLink() {
     } else {
       monthlyRate = currentProduct.priceCredit || 0;
     }
-    
-    messageText += `• Metode Pembayaran: *KREDIT (CICILAN)*\n`;
-    messageText += `• Uang Muka (DP): *${formatRupiah(currentDpValue || 2000000)}*\n`;
-    messageText += `• Jangka Waktu (Tenor): *${currentTenor || 35} Bulan*\n`;
-    messageText += `• Angsuran per Bulan: *${formatRupiah(monthlyRate)} / bulan*\n`;
+
+    messageText += `\n*Simulasi Cicilan Kredit:*\n`;
+    messageText += `• Uang Muka (DP): ${formatRupiah(currentDpValue)}\n`;
+    messageText += `• Jangka Waktu (Tenor): ${currentTenor} Bulan\n`;
+    messageText += `• Estimasi Cicilan: *${formatRupiah(monthlyRate)} / bulan*\n`;
   }
   
-  messageText += `\nMohon info mengenai ketersediaan stok unit, syarat administrasi, dan promo diskon terbaru. Terima kasih!`;
+  messageText += `\nMohon informasi ketersediaan unit, persyaratan data, dan proses pengirimannya. Terima kasih!`;
   
   const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(messageText)}`;
   window.open(waUrl, "_blank");

@@ -3,7 +3,7 @@
 // Full Firebase Integration (Auth, Firestore, Realtime Sync, Seeder, CRUD)
 // ==========================================================================
 
-import { DEFAULT_PRODUCTS, DEFAULT_TESTIMONIALS, DEFAULT_SETTINGS } from "./default-data.js";
+import { DEFAULT_PRODUCTS, DEFAULT_TESTIMONIALS, DEFAULT_SETTINGS, DEFAULT_PROMOS } from "./default-data.js";
 import { 
   auth, 
   db, 
@@ -26,7 +26,7 @@ import {
   isConfigured
 } from "./firebase-config.js";
 
-import { formatRupiah, resolveProductImage, resolveTestimonialImage } from "./script.js";
+import { formatRupiah, resolveProductImage, resolveTestimonialImage, resolvePromoImage } from "./script.js";
 
 // ==========================================================================
 // APPLICATION STATE
@@ -34,12 +34,14 @@ import { formatRupiah, resolveProductImage, resolveTestimonialImage } from "./sc
 let currentUser = null;
 let productsList = [];
 let testimonialsList = [];
+let promosList = [];
 let generalSettings = { ...DEFAULT_SETTINGS };
 
-let currentDeleteTarget = null; // { type: 'product'|'testi', id: string, name: string }
+let currentDeleteTarget = null; // { type: 'product'|'testi'|'promo', id: string, name: string }
 let unsubscribeProducts = null;
 let unsubscribeTestimonials = null;
 let unsubscribeSettings = null;
+let unsubscribePromos = null;
 
 // ==========================================================================
 // INITIALIZATION
@@ -163,7 +165,29 @@ function initRealtimeFirestore() {
       }
     });
 
-    // 3. Settings Listener
+    // 3. Promos Listener
+    const promosRef = collection(db, "promos");
+    unsubscribePromos = onSnapshot(promosRef, (snapshot) => {
+      const loaded = [];
+      snapshot.forEach((docSnap) => {
+        loaded.push({
+          id: docSnap.id,
+          ...docSnap.data()
+        });
+      });
+      promosList = loaded.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+      renderPromosTable();
+      updateDashboardStats();
+    }, (err) => {
+      console.warn("Firestore promos snapshot error:", err);
+      if (promosList.length === 0) {
+        promosList = [...DEFAULT_PROMOS];
+        renderPromosTable();
+        updateDashboardStats();
+      }
+    });
+
+    // 4. Settings Listener
     const settingsRef = doc(db, "settings", "general");
     unsubscribeSettings = onSnapshot(settingsRef, (docSnap) => {
       if (docSnap.exists()) {
@@ -183,6 +207,7 @@ function initRealtimeFirestore() {
 function cleanupListeners() {
   if (unsubscribeProducts) { unsubscribeProducts(); unsubscribeProducts = null; }
   if (unsubscribeTestimonials) { unsubscribeTestimonials(); unsubscribeTestimonials = null; }
+  if (unsubscribePromos) { unsubscribePromos(); unsubscribePromos = null; }
   if (unsubscribeSettings) { unsubscribeSettings(); unsubscribeSettings = null; }
 }
 
@@ -269,6 +294,37 @@ function setupEventListeners() {
   const saveProdBtn = document.getElementById("btn-save-product");
   if (saveProdBtn) {
     saveProdBtn.addEventListener("click", handleSaveProduct);
+  }
+
+  // Promo Filter & Search Controls
+  const promoSearch = document.getElementById("admin-promo-search");
+  const promoFilterStatus = document.getElementById("admin-promo-filter-status");
+  if (promoSearch) promoSearch.addEventListener("input", renderPromosTable);
+  if (promoFilterStatus) promoFilterStatus.addEventListener("change", renderPromosTable);
+
+  // Promo Save Button
+  const savePromoBtn = document.getElementById("btn-save-promo");
+  if (savePromoBtn) {
+    savePromoBtn.addEventListener("click", handleSavePromo);
+  }
+
+  // Promo File Input Preview
+  const promoFileInput = document.getElementById("promo-file-input");
+  if (promoFileInput) {
+    promoFileInput.addEventListener("change", handlePromoFileUpload);
+  }
+
+  const promoImgUrlInput = document.getElementById("promo-img-url");
+  if (promoImgUrlInput) {
+    promoImgUrlInput.addEventListener("input", () => {
+      const url = promoImgUrlInput.value.trim();
+      const previewBox = document.getElementById("promo-preview-box");
+      const previewImg = document.getElementById("promo-preview-img");
+      if (url && previewBox && previewImg) {
+        previewImg.src = resolvePromoImage(url);
+        previewBox.style.display = "block";
+      }
+    });
   }
 
   // Save Testimonial Button
@@ -448,6 +504,7 @@ export function switchTab(tabId) {
   // Update topbar title
   const titleMap = {
     "tab-dashboard": "Ringkasan Dashboard",
+    "tab-promos": "Promo & Brosur Berjalan",
     "tab-products": "Katalog Sepeda Motor",
     "tab-testimonials": "Testimoni & Dokumentasi",
     "tab-settings": "Pengaturan Informasi & Kontak",
@@ -462,21 +519,287 @@ export function switchTab(tabId) {
 // DASHBOARD STATS
 // ==========================================================================
 function updateDashboardStats() {
+  const statPromos = document.getElementById("stat-total-promos");
   const statProducts = document.getElementById("stat-total-products");
   const statCategories = document.getElementById("stat-total-categories");
   const statTesti = document.getElementById("stat-total-testimonials");
+  const badgePromos = document.getElementById("badge-promos-count");
   const badgeProd = document.getElementById("badge-products-count");
   const badgeTesti = document.getElementById("badge-testi-count");
 
+  const totalPromos = promosList.filter(p => p.active !== false).length;
   const totalProd = productsList.length;
   const categories = new Set(productsList.map(p => p.category).filter(Boolean));
   const totalTesti = testimonialsList.length;
 
+  if (statPromos) statPromos.textContent = totalPromos;
   if (statProducts) statProducts.textContent = totalProd;
   if (statCategories) statCategories.textContent = categories.size || 10;
   if (statTesti) statTesti.textContent = totalTesti;
+  if (badgePromos) badgePromos.textContent = promosList.length;
   if (badgeProd) badgeProd.textContent = totalProd;
   if (badgeTesti) badgeTesti.textContent = totalTesti;
+}
+
+// ==========================================================================
+// PROMO CRUD CONTROLLER
+// ==========================================================================
+export function renderPromosTable() {
+  const tbody = document.getElementById("admin-promos-table-body");
+  const searchInput = document.getElementById("admin-promo-search");
+  const filterStatus = document.getElementById("admin-promo-filter-status");
+  const counterEl = document.getElementById("admin-promos-count-display");
+
+  if (!tbody) return;
+
+  const query = (searchInput ? searchInput.value : "").toLowerCase().trim();
+  const statusFilter = filterStatus ? filterStatus.value : "all";
+
+  let filtered = promosList.filter(p => {
+    const title = (p.title || "").toLowerCase();
+    const tag = (p.tag || "").toLowerCase();
+    const badge = (p.badge || "").toLowerCase();
+    const matchSearch = title.includes(query) || tag.includes(query) || badge.includes(query);
+
+    const isActive = (p.active !== false);
+    let matchStatus = true;
+    if (statusFilter === "active") matchStatus = isActive;
+    else if (statusFilter === "inactive") matchStatus = !isActive;
+
+    return matchSearch && matchStatus;
+  });
+
+  // Sort by order ascending
+  filtered.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+
+  if (counterEl) counterEl.textContent = `${filtered.length} promo ditemukan`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px; color: var(--text-light);"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+            <span style="font-weight: 600;">Belum ada data promo yang cocok</span>
+          </div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(p => {
+    const imgSrc = resolvePromoImage(p.image);
+    const isActive = (p.active !== false);
+    const order = Number(p.order) || 1;
+
+    return `
+      <tr>
+        <td>
+          <img src="${imgSrc}" alt="${p.title}" class="promo-thumb-preview" onclick="window.open('${imgSrc}', '_blank')" onerror="this.src='promo/WhatsApp Image 2026-08-31 at 17.04.24.jpeg'">
+        </td>
+        <td>
+          <strong style="color: var(--dark); font-size: 13.5px;">${p.title}</strong>
+          ${p.tag ? `<div><span class="badge-tag-pill">${p.tag}</span></div>` : ""}
+          ${p.subtitle ? `<div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">${p.subtitle}</div>` : ""}
+        </td>
+        <td>
+          <span style="font-size: 12.5px; font-weight: 600; color: var(--dark);">${p.badge || "-"}</span>
+        </td>
+        <td>
+          <span style="font-size: 12px; color: var(--text-muted);">${p.ctaText || "Klaim Promo WhatsApp"}</span>
+        </td>
+        <td style="text-align: center; font-weight: 700;">
+          ${order}
+        </td>
+        <td style="text-align: center;">
+          <button type="button" class="btn btn-sm ${isActive ? "btn-outline-primary" : "btn-outline"}" 
+                  style="font-size: 11px; padding: 4px 10px;" 
+                  onclick="window.adminApp.togglePromoStatus('${p.id}')">
+            ${isActive ? "Tayang Aktif" : "Draft / Nonaktif"}
+          </button>
+        </td>
+        <td style="text-align: center;">
+          <div class="action-buttons-wrapper">
+            <button class="action-btn edit-btn" onclick="window.adminApp.openPromoModal('edit', '${p.id}')" title="Edit Promo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </button>
+            <button class="action-btn delete-btn" onclick="window.adminApp.confirmDelete('promo', '${p.id}', '${(p.title || "").replace(/'/g, "\\'")}')" title="Hapus Promo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+export function openPromoModal(mode = "add", promoId = null) {
+  const modal = document.getElementById("modal-promo");
+  const modalTitle = document.getElementById("modal-promo-title");
+  const form = document.getElementById("form-promo");
+
+  if (!modal || !form) return;
+  form.reset();
+
+  const idInput = document.getElementById("promo-id");
+  const titleInput = document.getElementById("promo-title");
+  const subInput = document.getElementById("promo-subtitle");
+  const tagInput = document.getElementById("promo-tag");
+  const badgeInput = document.getElementById("promo-badge");
+  const ctaInput = document.getElementById("promo-cta-text");
+  const orderInput = document.getElementById("promo-order");
+  const activeInput = document.getElementById("promo-active");
+  const imgUrlInput = document.getElementById("promo-img-url");
+  const imgDataInput = document.getElementById("promo-img-data");
+  const previewBox = document.getElementById("promo-preview-box");
+  const previewImg = document.getElementById("promo-preview-img");
+
+  if (imgDataInput) imgDataInput.value = "";
+  if (previewBox) previewBox.style.display = "none";
+
+  if (mode === "edit" && promoId) {
+    const promo = promosList.find(p => String(p.id) === String(promoId));
+    if (!promo) return;
+
+    if (modalTitle) modalTitle.textContent = "Edit Promo & Brosur";
+    if (idInput) idInput.value = promo.id;
+    if (titleInput) titleInput.value = promo.title || "";
+    if (subInput) subInput.value = promo.subtitle || "";
+    if (tagInput) tagInput.value = promo.tag || "";
+    if (badgeInput) badgeInput.value = promo.badge || "";
+    if (ctaInput) ctaInput.value = promo.ctaText || "Klaim Promo WhatsApp";
+    if (orderInput) orderInput.value = promo.order || 1;
+    if (activeInput) activeInput.checked = (promo.active !== false);
+    if (imgUrlInput) imgUrlInput.value = promo.image || "";
+
+    if (promo.image && previewBox && previewImg) {
+      previewImg.src = resolvePromoImage(promo.image);
+      previewBox.style.display = "block";
+    }
+  } else {
+    if (modalTitle) modalTitle.textContent = "Tambah Promo Baru";
+    if (idInput) idInput.value = "";
+    if (ctaInput) ctaInput.value = "Klaim Promo WhatsApp";
+    if (orderInput) orderInput.value = promosList.length + 1;
+    if (activeInput) activeInput.checked = true;
+    if (tagInput) tagInput.value = "Spesial Periode Berjalan";
+    if (badgeInput) badgeInput.value = "DP Super Ringan";
+  }
+
+  openModal("modal-promo");
+}
+
+async function handlePromoFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const base64 = await compressImageFile(file, 1000, 0.82);
+    const dataInput = document.getElementById("promo-img-data");
+    const previewBox = document.getElementById("promo-preview-box");
+    const previewImg = document.getElementById("promo-preview-img");
+
+    if (dataInput) dataInput.value = base64;
+    if (previewBox && previewImg) {
+      previewImg.src = base64;
+      previewBox.style.display = "block";
+    }
+  } catch (err) {
+    console.error("Gagal membaca file gambar promo:", err);
+    showToast("danger", "Gagal Membaca Gambar", err.message);
+  }
+}
+
+async function handleSavePromo() {
+  const idInput = document.getElementById("promo-id");
+  const title = document.getElementById("promo-title").value.trim();
+  const subtitle = document.getElementById("promo-subtitle").value.trim();
+  const tag = document.getElementById("promo-tag").value.trim();
+  const badge = document.getElementById("promo-badge").value.trim();
+  const ctaText = document.getElementById("promo-cta-text").value.trim();
+  const order = parseInt(document.getElementById("promo-order").value) || 1;
+  const active = document.getElementById("promo-active").checked;
+  const imgData = document.getElementById("promo-img-data").value;
+  const imgUrl = document.getElementById("promo-img-url").value.trim();
+
+  if (!title) {
+    showToast("warning", "Judul Diperlukan", "Masukkan judul promo.");
+    return;
+  }
+
+  const promoId = idInput.value.trim();
+  const finalImage = imgData || imgUrl || "promo/WhatsApp Image 2026-08-31 at 17.04.24.jpeg";
+
+  const promoData = {
+    title,
+    subtitle,
+    tag,
+    badge,
+    ctaText: ctaText || "Klaim Promo WhatsApp",
+    order,
+    active,
+    image: finalImage,
+    updatedAt: new Date().toISOString()
+  };
+
+  const saveBtn = document.getElementById("btn-save-promo");
+  saveBtn.disabled = true;
+
+  try {
+    if (db) {
+      if (promoId) {
+        await updateDoc(doc(db, "promos", promoId), promoData);
+        showToast("success", "Promo Diperbarui", `Promo "${title}" berhasil disimpan di cloud.`);
+      } else {
+        promoData.createdAt = serverTimestamp();
+        const newDoc = await addDoc(collection(db, "promos"), promoData);
+        promoData.id = newDoc.id;
+        showToast("success", "Promo Ditambahkan", `Promo baru "${title}" berhasil dibuat di cloud.`);
+      }
+    } else {
+      if (promoId) {
+        const idx = promosList.findIndex(p => String(p.id) === String(promoId));
+        if (idx !== -1) promosList[idx] = { ...promosList[idx], ...promoData };
+      } else {
+        promosList.push({ id: `promo-${Date.now()}`, ...promoData });
+      }
+      renderPromosTable();
+      updateDashboardStats();
+      showToast("info", "Disimpan Lokal", "Promo tersimpan di memori browser.");
+    }
+    closeModal("modal-promo");
+  } catch (err) {
+    console.error("Save promo error:", err);
+    showToast("danger", "Gagal Menyimpan Promo", err.message);
+  } finally {
+    saveBtn.disabled = false;
+  }
+}
+
+export async function togglePromoStatus(promoId) {
+  const promo = promosList.find(p => String(p.id) === String(promoId));
+  if (!promo) return;
+
+  const nextStatus = (promo.active === false);
+
+  try {
+    if (db) {
+      await updateDoc(doc(db, "promos", promoId), {
+        active: nextStatus,
+        updatedAt: new Date().toISOString()
+      });
+      showToast("success", "Status Diubah", `Status promo telah diubah menjadi ${nextStatus ? "Tayang Aktif" : "Nonaktif / Draft"}.`);
+    } else {
+      promo.active = nextStatus;
+      renderPromosTable();
+      updateDashboardStats();
+      showToast("info", "Status Diubah", `Status promo menjadi ${nextStatus ? "Tayang Aktif" : "Nonaktif / Draft"}.`);
+    }
+  } catch (err) {
+    console.error("Toggle promo status error:", err);
+    showToast("danger", "Gagal Mengubah Status", err.message);
+  }
 }
 
 // ==========================================================================
@@ -1119,13 +1442,16 @@ async function handleExecuteDelete() {
 
   try {
     if (db) {
-      const collectionName = (type === "product") ? "products" : "testimonials";
+      const collectionName = (type === "product") ? "products" : (type === "promo" ? "promos" : "testimonials");
       await deleteDoc(doc(db, collectionName, id));
       showToast("success", "Berhasil Dihapus", `"${name}" telah dihapus dari Firestore.`);
     } else {
       if (type === "product") {
         productsList = productsList.filter(p => p.id !== id);
         renderProductsTable();
+      } else if (type === "promo") {
+        promosList = promosList.filter(p => p.id !== id);
+        renderPromosTable();
       } else {
         testimonialsList = testimonialsList.filter(t => t.id !== id);
         renderTestimonialsGrid();
@@ -1222,10 +1548,10 @@ async function handleStartMigration() {
   progressBox.style.display = "block";
   progressBar.style.width = "0%";
   progressPercent.textContent = "0%";
-  progressStatus.textContent = "Menyiapkan migrasi 46 motor & 9 testimoni...";
+  progressStatus.textContent = "Menyiapkan migrasi 46 motor, promo & 9 testimoni...";
 
   try {
-    const totalItems = DEFAULT_PRODUCTS.length + DEFAULT_TESTIMONIALS.length + 1;
+    const totalItems = DEFAULT_PRODUCTS.length + DEFAULT_TESTIMONIALS.length + DEFAULT_PROMOS.length + 1;
     let completed = 0;
 
     // 1. Migrate Products in Batches of 20
@@ -1268,7 +1594,20 @@ async function handleStartMigration() {
     await testiBatch.commit();
     completed += DEFAULT_TESTIMONIALS.length;
 
-    // 3. Migrate Settings
+    // 3. Migrate Promos
+    const promoBatch = writeBatch(db);
+    DEFAULT_PROMOS.forEach((p, idx) => {
+      const docRef = doc(db, "promos", p.id || `promo-${idx + 1}`);
+      promoBatch.set(docRef, {
+        ...p,
+        createdAt: serverTimestamp(),
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+    });
+    await promoBatch.commit();
+    completed += DEFAULT_PROMOS.length;
+
+    // 4. Migrate Settings
     await setDoc(doc(db, "settings", "general"), {
       ...DEFAULT_SETTINGS,
       updatedAt: new Date().toISOString()
@@ -1279,7 +1618,7 @@ async function handleStartMigration() {
     progressPercent.textContent = "100%";
     progressStatus.textContent = "Migrasi 100% Selesai!";
 
-    showToast("success", "Migrasi Sukses", "46 produk Honda dan 9 testimoni telah berhasil tersimpan di Firestore.");
+    showToast("success", "Migrasi Sukses", "46 produk Honda, promo berjalan, dan 9 testimoni telah berhasil tersimpan di Firestore.");
   } catch (err) {
     console.error("Migration error:", err);
     progressStatus.textContent = "Terjadi kesalahan: " + err.message;
@@ -1294,6 +1633,7 @@ function handleExportBackup() {
   const backupData = {
     exportDate: new Date().toISOString(),
     products: productsList,
+    promos: promosList,
     testimonials: testimonialsList,
     settings: generalSettings
   };
@@ -1428,6 +1768,8 @@ window.adminApp = {
   openProductModal,
   openBulkPriceModal,
   openTestimonialModal,
+  openPromoModal,
+  togglePromoStatus,
   confirmDelete,
   closeModal,
   showToast

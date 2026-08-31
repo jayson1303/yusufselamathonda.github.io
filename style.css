@@ -183,9 +183,17 @@ button, select {
     align-items: center;
     gap: 10px;
     font-weight: 800;
-    font-size: 20px;
+    font-size: 19px;
     color: var(--dark);
     letter-spacing: -0.03em;
+}
+
+.header__logo-img {
+    height: 38px;
+    width: auto;
+    max-width: 44px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .header__logo-icon {
@@ -292,8 +300,8 @@ button, select {
 
 .hero__container {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 60px;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
     align-items: center;
     max-width: var(--max-width);
     margin: 0 auto;
@@ -303,6 +311,7 @@ button, select {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    z-index: 2;
 }
 
 .hero__tagline {
@@ -328,6 +337,7 @@ button, select {
     color: rgba(255, 255, 255, 0.85);
     margin-bottom: 36px;
     max-width: 520px;
+    line-height: 1.6;
 }
 
 .hero__ctas {
@@ -345,62 +355,238 @@ button, select {
     border-color: #ffffff;
 }
 
-.hero__visual {
+/* ==========================================================================
+   HERO 3D CENTER-FOCUS PROMO CAROUSEL (PORTRAIT POSTER PROPORTIONS)
+   ========================================================================== */
+.hero__carousel-wrapper {
     position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    z-index: 2;
+}
+
+.hero-carousel {
+    position: relative;
+    width: 100%;
+    height: 480px;
     display: flex;
     align-items: center;
     justify-content: center;
+    touch-action: pan-y pinch-zoom;
+    cursor: grab;
 }
 
-.hero__glow {
+.hero-carousel.is-dragging {
+    cursor: grabbing;
+}
+
+.hero-carousel__stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+}
+
+/* Base Promo Slide (Portrait Poster Ratio 2:3 / 1024x1536) */
+.hero-carousel__slide {
     position: absolute;
-    width: 130%;
-    height: 130%;
-    background: radial-gradient(circle, rgba(232, 28, 36, 0.06) 0%, rgba(255, 255, 255, 0) 70%);
+    width: 290px;
+    max-width: 85%;
+    aspect-ratio: 2 / 3;
+    height: 435px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: #1a1e29;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, filter, opacity;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+}
+
+.hero-carousel__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    transition: transform 0.5s ease;
+}
+
+/* Center Active Slide (Full Focus, Sharp, Normal/Slightly Larger, Prominent) */
+.hero-carousel__slide.is-center {
+    transform: translateX(0) scale(1.02) translateZ(60px);
+    filter: blur(0px) brightness(1);
+    opacity: 1;
+    z-index: 10;
+    cursor: pointer;
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 25px 50px -5px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.hero-carousel__slide.is-center:hover .hero-carousel__img {
+    transform: scale(1.03);
+}
+
+/* Left Slide (Blurred, Scaled Down, Offset Left) */
+.hero-carousel__slide.is-left {
+    transform: translateX(-44%) scale(0.82) rotateY(12deg) translateZ(0);
+    filter: blur(4px) brightness(0.65);
+    opacity: 0.75;
+    z-index: 5;
+}
+
+.hero-carousel__slide.is-left:hover {
+    filter: blur(2px) brightness(0.8);
+    opacity: 0.9;
+    transform: translateX(-42%) scale(0.85) rotateY(8deg) translateZ(10px);
+}
+
+/* Right Slide (Blurred, Scaled Down, Offset Right) */
+.hero-carousel__slide.is-right {
+    transform: translateX(44%) scale(0.82) rotateY(-12deg) translateZ(0);
+    filter: blur(4px) brightness(0.65);
+    opacity: 0.75;
+    z-index: 5;
+}
+
+.hero-carousel__slide.is-right:hover {
+    filter: blur(2px) brightness(0.8);
+    opacity: 0.9;
+    transform: translateX(42%) scale(0.85) rotateY(-8deg) translateZ(10px);
+}
+
+/* Far Left / Right (Hidden smoothly) */
+.hero-carousel__slide.is-hidden-left {
+    transform: translateX(-95%) scale(0.65) translateZ(-100px);
+    filter: blur(8px) brightness(0.35);
+    opacity: 0;
+    pointer-events: none;
     z-index: 1;
 }
 
-.hero__img {
-    position: relative;
-    z-index: 2;
-    max-height: 380px;
-    object-fit: contain;
-    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.06));
-    animation: float 6s ease-in-out infinite;
+.hero-carousel__slide.is-hidden-right {
+    transform: translateX(95%) scale(0.65) translateZ(-100px);
+    filter: blur(8px) brightness(0.35);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.hero__badge {
+/* Carousel Prev/Next Buttons */
+.hero-carousel__btn {
     position: absolute;
-    bottom: 20px;
-    left: 10px;
-    background-color: var(--bg-white);
-    padding: 12px 20px;
-    border-radius: var(--radius-md);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    border: 1px solid var(--border);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-full);
+    background-color: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
     display: flex;
-    flex-direction: column;
-    z-index: 3;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    outline: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.hero__badge-label {
-    font-size: 10px;
+.hero-carousel__btn:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 25px rgba(204, 29, 36, 0.5);
+}
+
+.hero-carousel__btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.hero-carousel__btn--prev {
+    left: -12px;
+}
+
+.hero-carousel__btn--next {
+    right: -12px;
+}
+
+/* Carousel Dots */
+.hero-carousel__dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    z-index: 15;
+}
+
+.hero-carousel__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background-color: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 0;
+}
+
+.hero-carousel__dot:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-carousel__dot.active {
+    width: 28px;
+    border-radius: 6px;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 12px rgba(204, 29, 36, 0.6);
+}
+
+/* Promo Saat Ini Label Below Poster */
+.hero-carousel__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232, 28, 36, 0.18);
+    border: 1.5px solid rgba(232, 28, 36, 0.5);
+    color: #ffffff;
+    font-size: 12.5px;
     font-weight: 700;
-    color: var(--primary);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
+    padding: 6px 18px;
+    border-radius: var(--radius-full);
+    margin-top: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    z-index: 15;
 }
 
-.hero__badge-name {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--dark);
-    margin-top: 2px;
+.hero-carousel__label::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background-color: var(--primary);
+    box-shadow: 0 0 8px var(--primary);
 }
 
 /* COMBINED ABOUT & WHY US SECTION */
@@ -1152,11 +1338,23 @@ button, select {
 .footer__logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-weight: 800;
-    font-size: 20px;
+    font-size: 19px;
     color: var(--bg-white);
     margin-bottom: 20px;
+}
+
+.footer__logo-img {
+    height: 40px;
+    width: auto;
+    max-width: 46px;
+    object-fit: contain;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
 }
 
 .footer__logo-icon {
@@ -1283,12 +1481,12 @@ button, select {
 .modal-card {
     background-color: var(--bg-white);
     width: 100%;
-    max-width: 960px;
+    max-width: 1040px;
     max-height: calc(100vh - 48px);
     border-radius: var(--radius-lg);
     overflow: hidden;
     position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     border: 1px solid var(--border);
     transform: scale(0.95) translateY(20px);
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1329,16 +1527,17 @@ button, select {
     height: 18px;
 }
 
+/* Modal Body 2 Columns: 41% Left (Foto) / 59% Right (Info & Simulasi) */
 .modal-card__body {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 41% 59%;
     height: 100%;
     overflow: hidden;
 }
 
 .modal-card__gallery {
-    background-color: var(--bg-gray);
-    padding: 24px;
+    background-color: #f8fafc;
+    padding: 24px 20px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -1392,35 +1591,63 @@ button, select {
     fill: none;
 }
 
+/* 3D Tilt Container for Main Product Photo */
 .modal-card__main-img-container {
     width: 100%;
-    height: 380px;
+    height: 310px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    perspective: 1000px;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: radial-gradient(circle at center, #ffffff 0%, #edf2f7 100%);
+    border: 1px solid #e2e8f0;
+    cursor: crosshair;
 }
 
 .modal-card__main-img {
-    max-height: 340px;
+    max-height: 88%;
+    max-width: 90%;
     object-fit: contain;
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.05));
-    transition: transform 0.3s ease;
+    aspect-ratio: 4 / 3;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.12));
+    transition: transform 0.12s ease-out, filter 0.12s ease-out;
+    will-change: transform, filter;
+    transform-style: preserve-3d;
+}
+
+/* Dynamic Glare/Highlight Overlay */
+.tilt-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 65%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    mix-blend-mode: overlay;
+    border-radius: inherit;
+    z-index: 4;
 }
 
 .modal-card__thumbnails {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .thumbnail-btn {
-    width: 60px;
-    height: 60px;
+    width: 54px;
+    height: 54px;
     border: 1.5px solid var(--border);
     border-radius: var(--radius-md);
     background-color: var(--bg-white);
-    padding: 4px;
+    padding: 3px;
     cursor: pointer;
     transition: var(--transition);
     display: flex;
@@ -1439,12 +1666,23 @@ button, select {
 
 .thumbnail-btn.active {
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(232, 28, 36, 0.08);
+    box-shadow: 0 0 0 2px rgba(232, 28, 36, 0.12);
 }
 
 .modal-card__details {
-    padding: 40px;
+    padding: 24px 28px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.modal-card__brand-header {
+    width: 100%;
+    margin-top: 14px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1456,44 +1694,64 @@ button, select {
     color: var(--primary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .modal-card__title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 800;
     color: var(--dark);
     letter-spacing: -0.02em;
-    margin-bottom: 12px;
+    margin-bottom: 0;
 }
 
 .modal-card__divider {
     width: 100%;
     height: 1px;
     background-color: var(--border);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
+}
+
+.modal-card__desc-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.modal-card__desc-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--dark);
 }
 
 .modal-card__desc {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 24px;
+    line-height: 1.55;
+    margin-bottom: 0;
 }
 
 .modal-card__section {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.modal-card__section--colors {
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
 }
 
 .modal-card__section-label {
     font-size: 12px;
     font-weight: 700;
     color: var(--dark);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .variant-swatches {
@@ -1744,13 +2002,13 @@ button, select {
         grid-column: 1 / -1;
     }
     .modal-card__body {
-        grid-template-columns: 1.2fr 1fr;
+        grid-template-columns: 41% 59%;
     }
     .modal-card__gallery {
-        padding: 24px;
+        padding: 20px 16px;
     }
     .modal-card__details {
-        padding: 24px;
+        padding: 24px 20px;
     }
 }
 
@@ -1786,7 +2044,7 @@ button, select {
     }
     .hero__container {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
         text-align: center;
     }
     .hero__content {
@@ -1796,8 +2054,19 @@ button, select {
         justify-content: center;
         width: 100%;
     }
-    .hero__img {
-        max-height: 280px;
+    .hero-carousel {
+        height: 420px;
+    }
+    .hero-carousel__slide {
+        width: 250px;
+        max-width: 82%;
+        height: 375px;
+    }
+    .hero-carousel__slide.is-left {
+        transform: translateX(-38%) scale(0.8) rotateY(10deg);
+    }
+    .hero-carousel__slide.is-right {
+        transform: translateX(38%) scale(0.8) rotateY(-10deg);
     }
     .benefits__grid {
         grid-template-columns: 1fr;
@@ -1812,9 +2081,38 @@ button, select {
     .tenor-grid {
         grid-template-columns: repeat(5, 1fr);
     }
+    .modal-card__body {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+    .modal-card__gallery {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 20px 16px;
+    }
+    .modal-card__main-img-container {
+        height: 240px;
+    }
+    .modal-card__details {
+        padding: 24px 16px;
+    }
 }
 
 @media (max-width: 480px) {
+    .hero-carousel {
+        height: 360px;
+    }
+    .hero-carousel__slide {
+        width: 210px;
+        max-width: 80%;
+        height: 315px;
+    }
+    .hero-carousel__slide.is-left {
+        transform: translateX(-32%) scale(0.78) rotateY(8deg);
+    }
+    .hero-carousel__slide.is-right {
+        transform: translateX(32%) scale(0.78) rotateY(-8deg);
+    }
     .hero__title {
         font-size: 32px;
     }
@@ -2037,19 +2335,774 @@ button, select {
     font-style: italic;
 }
 
-/* TESTIMONIAL GALLERY STYLING - MERGED INTO MAIN TESTIMONIALS */
-
+/* BADGE ASURANSI PADA CARD PRODUK */
 .badge-asuransi-card {
     display: inline-flex;
     align-items: center;
-    background-color: #e2f0fe;
-    color: #0d6efd;
-    font-size: 9px;
+    gap: 4px;
+    background-color: #fff5f5;
+    color: #cc1d24;
+    font-size: 10px;
     font-weight: 700;
-    padding: 2px 6px;
+    padding: 2px 7px;
     border-radius: var(--radius-sm);
     margin-left: 6px;
     vertical-align: middle;
     letter-spacing: 0.02em;
-    border: 1.5px solid #0d6efd;
+    border: 1px solid rgba(204, 29, 36, 0.25);
+}
+
+.badge-asuransi-card svg {
+    width: 11px;
+    height: 11px;
+}
+
+/* ==========================================================================
+   PROMO SAAT INI SECTION STYLES
+   ========================================================================== */
+.promos {
+    padding: 80px 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.promos__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.promos__slider-wrapper {
+    position: relative;
+    margin-top: 36px;
+}
+
+.promos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+}
+
+.promo-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.promo-card__banner-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: #f8fafc;
+    min-height: 380px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.promo-card__banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.4s ease;
+    display: block;
+}
+
+.promo-card:hover .promo-card__banner-img {
+    transform: scale(1.03);
+}
+
+.promo-card__zoom-hint {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(15, 23, 42, 0.8);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+.promo-card__zoom-hint svg {
+    width: 14px;
+    height: 14px;
+}
+
+.promo-card__banner-wrapper:hover .promo-card__zoom-hint {
+    opacity: 1;
+    background: var(--primary);
+}
+
+.promo-card__body {
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #ffffff;
+}
+
+.promo-card__header-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.promo-badge-tag {
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.promo-badge-sub {
+    background: #f1f5f9;
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+}
+
+.promo-card__title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+.promo-card__desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.promo-card__features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary);
+}
+
+.promo-card__feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.promo-card__feature-icon {
+    width: 16px;
+    height: 16px;
+    color: #2e7d32;
+    flex-shrink: 0;
+}
+
+.promo-card__actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.promo-card__btn-wa {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.promo-card__btn-wa:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.promo-card__btn-wa svg {
+    width: 18px;
+    height: 18px;
+}
+
+.promo-card__btn-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    color: var(--dark);
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.promo-card__btn-view:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.promo-card__btn-view svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Slider Controls */
+.promo-slider-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.promo-slider-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.promo-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: #cbd5e1;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.promo-dot.active {
+    width: 24px;
+    background: var(--primary);
+}
+
+/* ==========================================================================
+   REDESIGNED SIMULASI HARGA SECTION STYLES
+   ========================================================================== */
+.simulasi-harga-card {
+    margin-top: 0;
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-lg);
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.simulasi-harga-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.simulasi-harga-header-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.simulasi-harga-header-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+}
+
+/* a. Harga Cash Block */
+.sim-cash-block {
+    background: #fafafa;
+    border: 1px solid #f0f0f0;
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    transition: all 0.25s ease;
+}
+
+.sim-cash-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sim-cash-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sim-cash-number {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.02em;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.sim-cash-status {
+    display: block;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* b. Checkbox Asuransi Row */
+.sim-insurance-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #fdfefe;
+    border: 1.5px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.sim-insurance-row:hover {
+    border-color: #cbd5e1;
+    background: #ffffff;
+}
+
+.sim-insurance-row.checked {
+    border-color: var(--primary);
+    background: #fff8f8;
+}
+
+.sim-insurance-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    flex: 1;
+}
+
+.sim-insurance-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.sim-custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #94a3b8;
+    border-radius: 4px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.sim-custom-checkbox svg {
+    width: 13px;
+    height: 13px;
+    color: #ffffff;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s ease;
+}
+
+.sim-insurance-checkbox-input:checked + .sim-custom-checkbox {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.sim-insurance-checkbox-input:checked + .sim-custom-checkbox svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sim-insurance-text {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.sim-insurance-benefit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: #f1f5f9;
+    color: #2563eb;
+    border: 1px solid #dbeafe;
+    border-radius: var(--radius-sm);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.sim-insurance-benefit-link:hover {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.sim-info-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* c. Simulasi Kredit Block */
+.sim-credit-block {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sim-credit-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sim-credit-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.sim-credit-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+}
+
+.sim-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sim-field-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.sim-rate-result-box {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sim-rate-result-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.sim-rate-result-val {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+.sim-rate-result-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   INSURANCE BENEFITS MODAL STYLES
+   ========================================================================== */
+.insurance-modal-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    width: 92%;
+    max-width: 580px;
+    max-height: 88vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding: 24px;
+    animation: modalScaleUp 0.25s ease-out;
+}
+
+.insurance-modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+}
+
+.insurance-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #cc1d24;
+}
+
+.insurance-modal-title svg {
+    width: 20px;
+    height: 20px;
+    color: #cc1d24;
+}
+
+.insurance-modal-intro {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.insurance-benefits-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.benefit-item-card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: var(--radius-md);
+    border: 1px solid #edf2f7;
+}
+
+.benefit-item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: #fee2e2;
+    color: #cc1d24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.benefit-item-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.benefit-item-text strong {
+    display: block;
+    font-size: 13px;
+    color: var(--dark);
+    margin-bottom: 2px;
+}
+
+.benefit-item-text p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.insurance-rate-list-wrapper {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.insurance-rate-list-title {
+    padding: 10px 14px;
+    background: #f1f5f9;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.insurance-rate-list-title svg {
+    width: 15px;
+    height: 15px;
+    color: #2563eb;
+}
+
+.insurance-rate-table-scroll {
+    max-height: 190px;
+    overflow-y: auto;
+}
+
+.insurance-rate-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+}
+
+.insurance-rate-table th {
+    background: #f8fafc;
+    padding: 8px 12px;
+    font-weight: 700;
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 11px;
+    border-bottom: 1px solid var(--border);
+}
+
+.insurance-rate-table td {
+    padding: 7px 12px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.insurance-rate-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ==========================================================================
+   PROMO LIGHTBOX MODAL STYLES
+   ========================================================================== */
+.promo-lightbox-card {
+    background: #0f172a;
+    border-radius: var(--radius-lg);
+    max-width: 600px;
+    width: 92%;
+    max-height: 90vh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    animation: modalScaleUp 0.25s ease-out;
+}
+
+.promo-lightbox-img-wrapper {
+    overflow-y: auto;
+    max-height: calc(90vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #000000;
+}
+
+.promo-lightbox-img-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.promo-lightbox-footer {
+    padding: 14px 20px;
+    background: #1e293b;
+    display: flex;
+    justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .promo-card {
+        grid-template-columns: 1fr;
+    }
+
+    .promo-card__banner-wrapper {
+        min-height: 300px;
+        max-height: 420px;
+    }
+
+    .promo-card__body {
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .sim-cash-number {
+        font-size: 19px;
+    }
+
+    .sim-insurance-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .sim-insurance-benefit-link {
+        align-self: flex-start;
+    }
+
+    .header__logo-img {
+        height: 32px;
+    }
+    
+    .header__logo {
+        font-size: 16px;
+    }
 }
