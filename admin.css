@@ -1067,7 +1067,7 @@ button, input, select, textarea {
 }
 
 .modal-box.modal-lg {
-  max-width: 820px;
+  max-width: 920px;
 }
 
 .modal-box.modal-sm {
@@ -1187,6 +1187,112 @@ button, input, select, textarea {
   border-radius: var(--radius-sm);
   padding: 2px;
   cursor: pointer;
+}
+
+/* ==========================================================================
+   DP & CICILAN TABLE (INLINE EDITABLE)
+   ========================================================================== */
+.dp-table-container {
+  max-height: 420px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.dp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.dp-table th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #f1f5f9;
+  padding: 10px 10px;
+  font-weight: 700;
+  color: #334155;
+  border-bottom: 2px solid var(--border);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.dp-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.dp-table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+.dp-table tbody tr.row-highlight td {
+  background: #fef2f2;
+}
+
+.dp-table-input {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.dp-table-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-glow);
+  background: #ffffff;
+}
+
+.dp-table-input.dp-val {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.dp-summary-card {
+  background: var(--primary-light);
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius-md);
+  padding: 9px 14px;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-remove-dp {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-remove-dp:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+  border-color: #fecaca;
 }
 
 /* ==========================================================================

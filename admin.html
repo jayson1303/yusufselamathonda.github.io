@@ -844,30 +844,61 @@ service cloud.firestore {
             </div>
           </div>
 
-          <!-- TAB 3: SKEMA CICILAN -->
+          <!-- TAB 3: SKEMA CICILAN & DP -->
           <div id="modal-tab-prod-credit" class="modal-tab-content" style="display: none;">
-            <div style="display: flex; flex-direction: column; gap: 16px;">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                <div class="form-group">
-                  <label class="form-label" for="prod-price-credit">Nominal Cicilan Mulai Dari (Rp/bln)</label>
-                  <input type="number" id="prod-price-credit" class="form-input no-icon" placeholder="Contoh: 885000">
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <!-- Header Toolbar & Actions -->
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <strong style="font-size: 14px; color: var(--dark);">Daftar Uang Muka (DP) & Cicilan</strong>
+                    <span class="badge badge-red" id="dp-rows-counter">0 Opsi DP</span>
+                  </div>
+                  <span style="font-size: 12px; color: var(--text-muted); display: block; margin-top: 2px;">
+                    Kelola seluruh pilihan DP dan nominal cicilan untuk tenor 11, 17, 23, 29, dan 35 bulan sesuai Price List resmi.
+                  </span>
                 </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="prod-tenor">Tenor Standar (Bulan)</label>
-                  <select id="prod-tenor" class="form-select no-icon">
-                    <option value="35">35 Bulan</option>
-                    <option value="29">29 Bulan</option>
-                    <option value="23">23 Bulan</option>
-                    <option value="17">17 Bulan</option>
-                    <option value="11">11 Bulan</option>
-                  </select>
+                
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <button type="button" class="btn btn-sm btn-outline" id="btn-reset-pl-dp" title="Muat ulang seluruh rincian DP & cicilan standar dari Price List resmi untuk model ini" style="font-size: 12px; padding: 6px 12px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M3 21v-5h5"></path></svg>
+                    Muat Ulang PL Resmi
+                  </button>
+                  <button type="button" class="btn btn-sm btn-primary" id="btn-add-dp-row" style="font-size: 12px; padding: 6px 12px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    + Tambah Opsi DP
+                  </button>
                 </div>
               </div>
 
-              <div class="form-group">
-                <label class="form-label" for="prod-dp">Uang Muka Minimal (DP Rp)</label>
-                <input type="number" id="prod-dp" class="form-input no-icon" placeholder="Contoh: 2000000" value="2000000">
+              <!-- Quick Info Summary Card -->
+              <div class="dp-summary-card" id="dp-summary-bar">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; color: var(--primary);"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span><strong>Simulasi Landing Page:</strong> DP Termurah <span id="summary-min-dp" style="font-weight: 700; color: var(--primary);">Rp 0</span> (Cicilan 35x: <span id="summary-min-rate" style="font-weight: 700; color: var(--primary);">Rp 0/bln</span>)</span>
+                </div>
+                <span style="font-size: 11.5px; color: var(--text-muted);" id="summary-tenor-info">Tenor aktif: 11x, 17x, 23x, 29x, 35x</span>
+              </div>
+
+              <!-- Scrollable DP & Installments Table -->
+              <div class="dp-table-container">
+                <table class="dp-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 36px; text-align: center;">No</th>
+                      <th style="min-width: 135px;">Uang Muka (DP Rp)</th>
+                      <th style="min-width: 105px;">11 Bulan (Rp)</th>
+                      <th style="min-width: 105px;">17 Bulan (Rp)</th>
+                      <th style="min-width: 105px;">23 Bulan (Rp)</th>
+                      <th style="min-width: 105px;">29 Bulan (Rp)</th>
+                      <th style="min-width: 105px;">35 Bulan (Rp)</th>
+                      <th style="width: 45px; text-align: center;">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dp-table-body">
+                    <!-- Dynamic DP rows generated via JS -->
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

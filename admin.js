@@ -290,6 +290,17 @@ function setupEventListeners() {
     addVariantBtn.addEventListener("click", () => addVariantRow());
   }
 
+  // DP & Cicilan Row Builder & Reset
+  const addDpBtn = document.getElementById("btn-add-dp-row");
+  if (addDpBtn) {
+    addDpBtn.addEventListener("click", handleAddDpRowClick);
+  }
+
+  const resetPlDpBtn = document.getElementById("btn-reset-pl-dp");
+  if (resetPlDpBtn) {
+    resetPlDpBtn.addEventListener("click", handleResetPlDp);
+  }
+
   // Save Product Button
   const saveProdBtn = document.getElementById("btn-save-product");
   if (saveProdBtn) {
@@ -924,6 +935,286 @@ function renderProductsTable() {
   }).join("");
 }
 
+// HELPER: Locate product in DEFAULT_PRODUCTS by ID or name
+function findDefaultProduct(productId, productName) {
+  if (productId) {
+    const p = DEFAULT_PRODUCTS.find(item => String(item.id).toLowerCase() === String(productId).toLowerCase());
+    if (p) return p;
+  }
+  if (productName) {
+    const clean = productName.toLowerCase().replace(/all new |all |honda /g, "").trim();
+    let p = DEFAULT_PRODUCTS.find(item => {
+      const pClean = (item.name || "").toLowerCase().replace(/all new |all |honda /g, "").trim();
+      return pClean === clean;
+    });
+    if (p) return p;
+    p = DEFAULT_PRODUCTS.find(item => {
+      const pClean = (item.name || "").toLowerCase().replace(/all new |all |honda /g, "").trim();
+      return pClean.includes(clean) || clean.includes(pClean);
+    });
+    if (p) return p;
+    p = DEFAULT_PRODUCTS.find(item => {
+      const fClean = (item.folder || "").toLowerCase().replace(/all new |all /g, "").trim();
+      return fClean.includes(clean) || clean.includes(fClean);
+    });
+    if (p) return p;
+  }
+  return null;
+}
+
+// ==========================================================================
+// DP & CICILAN TABLE CONTROLLER
+// ==========================================================================
+function addDpRow(dpVal = "", rates = {}) {
+  const tbody = document.getElementById("dp-table-body");
+  if (!tbody) return null;
+
+  const emptyRow = tbody.querySelector(".dp-empty-row");
+  if (emptyRow) emptyRow.remove();
+
+  const tr = document.createElement("tr");
+  tr.className = "dp-table-row";
+
+  const dp = (dpVal !== "" && dpVal !== null && dpVal !== undefined) ? Number(dpVal) : "";
+  const r11 = rates && (rates["11"] || rates[11]) ? Number(rates["11"] || rates[11]) : "";
+  const r17 = rates && (rates["17"] || rates[17]) ? Number(rates["17"] || rates[17]) : "";
+  const r23 = rates && (rates["23"] || rates[23]) ? Number(rates["23"] || rates[23]) : "";
+  const r29 = rates && (rates["29"] || rates[29]) ? Number(rates["29"] || rates[29]) : "";
+  const r35 = rates && (rates["35"] || rates[35]) ? Number(rates["35"] || rates[35]) : "";
+
+  tr.innerHTML = `
+    <td class="dp-row-num" style="text-align: center; font-weight: 700; color: var(--text-muted); font-size: 11.5px;"></td>
+    <td>
+      <input type="number" class="dp-table-input dp-val" value="${dp}" placeholder="Contoh: 2000000" step="50000" title="Nominal Uang Muka (DP) dalam Rupiah">
+    </td>
+    <td>
+      <input type="number" class="dp-table-input rate-val rate-11" value="${r11}" placeholder="0" step="1000" title="Cicilan 11 Bulan">
+    </td>
+    <td>
+      <input type="number" class="dp-table-input rate-val rate-17" value="${r17}" placeholder="0" step="1000" title="Cicilan 17 Bulan">
+    </td>
+    <td>
+      <input type="number" class="dp-table-input rate-val rate-23" value="${r23}" placeholder="0" step="1000" title="Cicilan 23 Bulan">
+    </td>
+    <td>
+      <input type="number" class="dp-table-input rate-val rate-29" value="${r29}" placeholder="0" step="1000" title="Cicilan 29 Bulan">
+    </td>
+    <td>
+      <input type="number" class="dp-table-input rate-val rate-35" value="${r35}" placeholder="0" step="1000" title="Cicilan 35 Bulan">
+    </td>
+    <td style="text-align: center;">
+      <button type="button" class="btn-remove-dp" title="Hapus opsi DP ini">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path></svg>
+      </button>
+    </td>
+  `;
+
+  // Row delete event
+  const removeBtn = tr.querySelector(".btn-remove-dp");
+  removeBtn.addEventListener("click", () => {
+    tr.remove();
+    updateDpTableState();
+  });
+
+  // Dynamic input listeners for summary updating
+  const inputs = tr.querySelectorAll(".dp-table-input");
+  inputs.forEach(input => {
+    input.addEventListener("input", updateDpTableState);
+  });
+
+  tbody.appendChild(tr);
+  updateDpTableState();
+
+  return tr;
+}
+
+function updateDpTableState() {
+  const tbody = document.getElementById("dp-table-body");
+  const counterEl = document.getElementById("dp-rows-counter");
+  const minDpEl = document.getElementById("summary-min-dp");
+  const minRateEl = document.getElementById("summary-min-rate");
+
+  if (!tbody) return;
+
+  const rows = Array.from(tbody.querySelectorAll("tr.dp-table-row"));
+
+  if (rows.length === 0) {
+    if (!tbody.querySelector(".dp-empty-row")) {
+      tbody.innerHTML = `
+        <tr class="dp-empty-row">
+          <td colspan="8" style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">
+            Belum ada opsi DP & cicilan. Klik <strong>"+ Tambah Opsi DP"</strong> atau <strong>"Muat Ulang PL Resmi"</strong> untuk mengisi data.
+          </td>
+        </tr>
+      `;
+    }
+    if (counterEl) counterEl.textContent = "0 Opsi DP";
+    if (minDpEl) minDpEl.textContent = "Rp 0";
+    if (minRateEl) minRateEl.textContent = "Rp 0/bln";
+    return;
+  }
+
+  // Update row numbers
+  rows.forEach((row, idx) => {
+    const numCell = row.querySelector(".dp-row-num");
+    if (numCell) numCell.textContent = idx + 1;
+  });
+
+  if (counterEl) {
+    counterEl.textContent = `${rows.length} Opsi DP`;
+  }
+
+  // Find lowest DP and lowest 35x rate
+  let minDp = Infinity;
+  let minRate35 = 0;
+  let minRateOverall = Infinity;
+
+  rows.forEach(row => {
+    const dp = Number(row.querySelector(".dp-val").value) || 0;
+    const r35 = Number(row.querySelector(".rate-35").value) || 0;
+    const r29 = Number(row.querySelector(".rate-29").value) || 0;
+    const r23 = Number(row.querySelector(".rate-23").value) || 0;
+    const r17 = Number(row.querySelector(".rate-17").value) || 0;
+    const r11 = Number(row.querySelector(".rate-11").value) || 0;
+
+    if (dp > 0 && dp < minDp) {
+      minDp = dp;
+      minRate35 = r35;
+    }
+
+    [r35, r29, r23, r17, r11].forEach(r => {
+      if (r > 0 && r < minRateOverall) {
+        minRateOverall = r;
+      }
+    });
+  });
+
+  if (minDp !== Infinity && minDpEl) {
+    minDpEl.textContent = formatRupiah(minDp);
+  } else if (minDpEl) {
+    minDpEl.textContent = "Rp 0";
+  }
+
+  if (minRateEl) {
+    if (minRate35 > 0) {
+      minRateEl.textContent = `${formatRupiah(minRate35)}/bln`;
+    } else if (minRateOverall !== Infinity) {
+      minRateEl.textContent = `${formatRupiah(minRateOverall)}/bln`;
+    } else {
+      minRateEl.textContent = "Rp 0/bln";
+    }
+  }
+}
+
+function renderDpTable(installments = []) {
+  const tbody = document.getElementById("dp-table-body");
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  if (!installments || installments.length === 0) {
+    updateDpTableState();
+    return;
+  }
+
+  const sorted = [...installments].sort((a, b) => (Number(a.dp) || 0) - (Number(b.dp) || 0));
+  sorted.forEach(inst => {
+    addDpRow(inst.dp, inst.rates || {});
+  });
+}
+
+function collectInstallmentsFromTable() {
+  const tbody = document.getElementById("dp-table-body");
+  if (!tbody) return [];
+
+  const rows = Array.from(tbody.querySelectorAll("tr.dp-table-row"));
+  const installments = [];
+
+  rows.forEach(row => {
+    const dpVal = Number(row.querySelector(".dp-val").value) || 0;
+    const r11 = Number(row.querySelector(".rate-11").value) || 0;
+    const r17 = Number(row.querySelector(".rate-17").value) || 0;
+    const r23 = Number(row.querySelector(".rate-23").value) || 0;
+    const r29 = Number(row.querySelector(".rate-29").value) || 0;
+    const r35 = Number(row.querySelector(".rate-35").value) || 0;
+
+    if (dpVal > 0 || r35 > 0 || r29 > 0 || r23 > 0 || r17 > 0 || r11 > 0) {
+      const rates = {};
+      if (r11 > 0) rates["11"] = r11;
+      if (r17 > 0) rates["17"] = r17;
+      if (r23 > 0) rates["23"] = r23;
+      if (r29 > 0) rates["29"] = r29;
+      if (r35 > 0) rates["35"] = r35;
+
+      installments.push({
+        dp: dpVal || 2000000,
+        rates: rates
+      });
+    }
+  });
+
+  installments.sort((a, b) => a.dp - b.dp);
+  return installments;
+}
+
+function handleResetPlDp() {
+  const formId = document.getElementById("prod-form-id").value;
+  const name = document.getElementById("prod-name").value.trim();
+  const priceCash = Number(document.getElementById("prod-price-cash").value) || 0;
+
+  const defaultProd = findDefaultProduct(formId, name);
+
+  if (defaultProd && defaultProd.installments && defaultProd.installments.length > 0) {
+    renderDpTable(defaultProd.installments);
+    showToast("success", "PL Resmi Dimuat", `${defaultProd.installments.length} opsi DP & cicilan Price List resmi berhasil dimuat untuk "${defaultProd.name}".`);
+  } else {
+    // Generate calculated progression from OTR price
+    const basePrice = priceCash > 0 ? priceCash : 20000000;
+    const standardDps = [2000000, 2500000, 3000000, 3500000, 4000000, 4500000, 5000000];
+    const generated = standardDps.map(dp => {
+      const loan = Math.max(1000000, basePrice - dp);
+      return {
+        dp: dp,
+        rates: {
+          "11": Math.round((loan * 1.18) / 11 / 1000) * 1000,
+          "17": Math.round((loan * 1.25) / 17 / 1000) * 1000,
+          "23": Math.round((loan * 1.32) / 23 / 1000) * 1000,
+          "29": Math.round((loan * 1.38) / 29 / 1000) * 1000,
+          "35": Math.round((loan * 1.45) / 35 / 1000) * 1000
+        }
+      };
+    });
+    renderDpTable(generated);
+    showToast("info", "Skema DP Dibuat", `Dibuatkan ${generated.length} opsi DP estimasi dari harga OTR Cash.`);
+  }
+}
+
+function handleAddDpRowClick() {
+  const tbody = document.getElementById("dp-table-body");
+  const rows = tbody ? tbody.querySelectorAll("tr.dp-table-row") : [];
+  let nextDp = 2000000;
+
+  if (rows.length > 0) {
+    const lastRow = rows[rows.length - 1];
+    const lastDp = Number(lastRow.querySelector(".dp-val").value) || 0;
+    if (lastDp > 0) {
+      nextDp = lastDp + 500000;
+    }
+  }
+
+  const newRow = addDpRow(nextDp, {});
+  if (newRow) {
+    const dpInput = newRow.querySelector(".dp-val");
+    if (dpInput) {
+      dpInput.focus();
+      dpInput.select();
+    }
+  }
+}
+
+// ==========================================================================
+// PRODUCT MODAL CONTROLLER
+// ==========================================================================
 export function openProductModal(mode = "add", productId = null) {
   const modal = document.getElementById("modal-product");
   const titleEl = document.getElementById("modal-product-title");
@@ -932,12 +1223,9 @@ export function openProductModal(mode = "add", productId = null) {
   const catInput = document.getElementById("prod-category");
   const priceCashInput = document.getElementById("prod-price-cash");
   const descInput = document.getElementById("prod-desc");
-  const priceCreditInput = document.getElementById("prod-price-credit");
-  const tenorInput = document.getElementById("prod-tenor");
-  const dpInput = document.getElementById("prod-dp");
   const variantsContainer = document.getElementById("variant-rows-container");
 
-  // Reset Tab
+  // Reset Tab to Tab 1 (Data Utama)
   document.querySelectorAll(".modal-tab-btn").forEach((b, i) => b.classList.toggle("active", i === 0));
   document.querySelectorAll(".modal-tab-content").forEach((c, i) => c.style.display = i === 0 ? "block" : "none");
 
@@ -950,14 +1238,22 @@ export function openProductModal(mode = "add", productId = null) {
     catInput.value = "Beat Series";
     priceCashInput.value = "";
     descInput.value = "";
-    priceCreditInput.value = "";
-    tenorInput.value = "35";
-    dpInput.value = "2000000";
 
     // Add default initial variant row
     addVariantRow("Standar", "#cc1d24", "");
+
+    // Default DP table: starting DP options
+    renderDpTable([
+      { dp: 2000000, rates: { "11": 0, "17": 0, "23": 0, "29": 0, "35": 0 } },
+      { dp: 2500000, rates: { "11": 0, "17": 0, "23": 0, "29": 0, "35": 0 } },
+      { dp: 3000000, rates: { "11": 0, "17": 0, "23": 0, "29": 0, "35": 0 } }
+    ]);
   } else {
-    const p = productsList.find(item => String(item.id) === String(productId));
+    // Edit or Duplicate mode
+    let p = productsList.find(item => String(item.id) === String(productId));
+    if (!p) {
+      p = DEFAULT_PRODUCTS.find(item => String(item.id) === String(productId));
+    }
     if (!p) return;
 
     if (mode === "edit") {
@@ -970,29 +1266,8 @@ export function openProductModal(mode = "add", productId = null) {
 
     nameInput.value = (mode === "duplicate" ? `${p.name} (Salinan)` : p.name);
     catInput.value = p.category || "Beat Series";
-    priceCashInput.value = p.otr_price || 0;
+    priceCashInput.value = p.otr_price || p.priceCash || 0;
     descInput.value = p.description || "";
-
-    // Min credit installment
-    let minRate = "";
-    let minTenor = "35";
-    let minDp = "2000000";
-    if (p.installments && p.installments.length > 0) {
-      minDp = p.installments[0].dp || 2000000;
-      if (p.installments[0].rates && p.installments[0].rates["35"]) {
-        minRate = p.installments[0].rates["35"];
-      } else if (p.installments[0].rates) {
-        minRate = Object.values(p.installments[0].rates)[0];
-      }
-    } else if (p.priceCredit) {
-      minRate = p.priceCredit;
-      minTenor = p.tenor || "35";
-      minDp = p.dp || 2000000;
-    }
-
-    priceCreditInput.value = minRate;
-    tenorInput.value = minTenor;
-    dpInput.value = minDp;
 
     // Populate variants
     const variants = p.variants || [];
@@ -1003,6 +1278,27 @@ export function openProductModal(mode = "add", productId = null) {
     } else {
       addVariantRow("Standar", "#cc1d24", p.imageUrl || "");
     }
+
+    // Determine DP & Cicilan Installments:
+    // 1. If product already has multiple installments, use them
+    // 2. If product has empty or 1-item placeholder installment, check DEFAULT_PRODUCTS for official PL
+    let productInstallments = p.installments;
+    if (!productInstallments || productInstallments.length <= 1) {
+      const defaultProd = findDefaultProduct(p.id, p.name);
+      if (defaultProd && defaultProd.installments && defaultProd.installments.length > 0) {
+        productInstallments = defaultProd.installments;
+      }
+    }
+
+    if (!productInstallments || productInstallments.length === 0) {
+      if (p.priceCredit) {
+        productInstallments = [{ dp: p.dp || 2000000, rates: { [String(p.tenor || 35)]: p.priceCredit } }];
+      } else {
+        productInstallments = [];
+      }
+    }
+
+    renderDpTable(productInstallments);
   }
 
   openModal("modal-product");
@@ -1074,9 +1370,6 @@ async function handleSaveProduct() {
   const category = document.getElementById("prod-category").value;
   const priceCash = Number(document.getElementById("prod-price-cash").value) || 0;
   const desc = document.getElementById("prod-desc").value.trim();
-  const priceCredit = Number(document.getElementById("prod-price-credit").value) || 0;
-  const tenor = Number(document.getElementById("prod-tenor").value) || 35;
-  const dp = Number(document.getElementById("prod-dp").value) || 2000000;
 
   if (!name) {
     showToast("warning", "Nama Diperlukan", "Masukkan nama model sepeda motor.");
@@ -1111,24 +1404,27 @@ async function handleSaveProduct() {
     });
   }
 
-  // Construct Installment Structure
-  const installments = [
-    {
-      dp: dp,
-      rates: {
-        [String(tenor)]: priceCredit || Math.round(priceCash * 0.045)
-      }
+  // Collect Installments from Table
+  const installments = collectInstallmentsFromTable();
+
+  // Determine primary DP and rate (for backward compatibility / quick summary)
+  let primaryDp = 2000000;
+  let primaryRate = 0;
+  if (installments.length > 0) {
+    primaryDp = installments[0].dp || 2000000;
+    if (installments[0].rates) {
+      primaryRate = installments[0].rates["35"] || Object.values(installments[0].rates)[0] || 0;
     }
-  ];
+  }
 
   const productData = {
     name,
     category,
     otr_price: priceCash,
     priceCash: priceCash,
-    priceCredit: priceCredit,
-    tenor: tenor,
-    dp: dp,
+    priceCredit: primaryRate,
+    tenor: 35,
+    dp: primaryDp,
     description: desc,
     variants: variants,
     colors: variants,
@@ -1144,16 +1440,16 @@ async function handleSaveProduct() {
   try {
     if (db) {
       if (formId) {
-        // Update existing
+        // Update existing product in Firestore
         await setDoc(doc(db, "products", formId), productData, { merge: true });
-        showToast("success", "Produk Diperbarui", `${name} berhasil diperbarui di Firestore.`);
+        showToast("success", "Produk Diperbarui", `${name} berhasil diperbarui di Firestore (${installments.length} opsi DP & cicilan disimpan).`);
       } else {
-        // Add new
+        // Add new product to Firestore
         const docRef = await addDoc(collection(db, "products"), {
           ...productData,
           createdAt: serverTimestamp()
         });
-        showToast("success", "Produk Ditambahkan", `${name} berhasil ditambahkan ke katalog.`);
+        showToast("success", "Produk Ditambahkan", `${name} berhasil ditambahkan ke katalog (${installments.length} opsi DP & cicilan disimpan).`);
       }
     } else {
       // Local fallback mode
